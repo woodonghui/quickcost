@@ -1,0 +1,18 @@
+div.form {
+    padding: 5px;
+}
+
+.container table.table {
+    margin: 5px;
+    border-bottom: 1px solid #333333;
+}
+
+.container table.table tr.header {
+    color: #b2c831;
+    background: #333333;
+    border-bottom: 2px solid #666666;
+}
+
+.container table.table td {
+    border-top: 1px solid #333333;
+}

@@ -1,0 +1,32 @@
+{
+  "name": "SaleRecord",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "date",
+      "required": false
+    },
+    "outletid": {
+      "type": "number",
+      "required": true
+    },
+    "totalincome": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "costRecords": {
+      "type": "hasMany",
+      "model": "CostRecord",
+      "foreignKey": "salerecordid"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,42 @@
+{
+  "name": "angular-keypad",
+  "description": "An Angular directive that creates a numeric keypad.",
+  "homepage": "https://github.com/benjamincharity/angular-keypad",
+  "authors": [
+    "Benjamin Charity <ben@benjamincharity.com>"
+  ],
+  "license": "MIT",
+  "main": [
+    "dist/angular-keypad.js",
+    "dist/angular-keypad.css"
+  ],
+  "keywords": [
+    "angular",
+    "keypad",
+    "numeric",
+    "keyboard",
+    "numberpad",
+    "numbers"
+  ],
+  "dependencies": {
+    "angular": ">=1.4.0"
+  },
+  "ignore": [
+    "**/.*",
+    "src",
+    "node_modules",
+    "package.json",
+    "webpack.config.js"
+  ],
+  "version": "2.0.4",
+  "_release": "2.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.4",
+    "commit": "9d55a73c5b6088ceaf9b62b754130bedfe4d790d"
+  },
+  "_source": "https://github.com/benjamincharity/angular-keypad.git",
+  "_target": "^2.0.4",
+  "_originalSource": "angular-keypad",
+  "_direct": true
+}

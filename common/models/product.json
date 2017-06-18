@@ -1,0 +1,40 @@
+{
+    "name": "Product",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "name": {
+            "type": "string",
+            "required": true
+        },
+        "sku": {
+            "type": "string",
+            "required": false
+        },
+        "supplierid": {
+            "type": "number",
+            "required": true
+        },
+        "unitprice": {
+            "type": "number",
+            "required": true
+        },
+        "unit": {
+            "type": "string",
+            "required": false
+        }
+    },
+    "validations": [],
+    "relations": {
+        "supplier": {
+            "type": "belongsTo",
+            "model": "Supplier",
+            "foreignKey": "supplierid"
+        }
+    },
+    "acls": [],
+    "methods": {}
+}

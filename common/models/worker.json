@@ -1,0 +1,29 @@
+{
+  "name": "Worker",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "firstname": {
+      "type": "string",
+      "default": "lastname"
+    },
+    "lastname": {
+      "type": "string",
+      "default": "lastname"
+    },
+    "nickname": {
+      "type": "string",
+      "required": true
+    },
+    "joindate": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

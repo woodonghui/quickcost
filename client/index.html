@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quick Cost Application</title>
+    <link href="lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="css/style.css" rel="stylesheet"> -->
+    <link rel="stylesheet" type="text/css" href="lib/angular-keypad/dist/angular-keypad.css">
+</head>
+
+<body ng-app="App">
+    <div class="container" ng-controller="workerController">
+        <h2>Add Worker</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <table class="table table-striped">
+                    <tr ng-repeat='worker in workers'>
+                        <td>
+                            <!-- <input type="checkbox" ng-true-value="false" ng-false-value="true" ng-model="todo.isDone" ng-change="update(todo)"> -->
+                            {{ worker.firstname }}
+                        </td>
+                        <td>{{ worker.lastname }}</td>
+                        <td>{{ worker.nickname }}</td>
+                        <td>{{ worker.joindate }}</td>
+                        <td>
+                            <button class="btn btn-danger btn-xs" ng-click="delete($index)">Delete</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="">first name:</label>
+                <input type='text' ng-model="worker.firstname">
+                <label for="">last name:</label>
+                <input type='text' ng-model="worker.lastname">
+                <label for="">nickname:</label>
+                <input type='text' ng-model="worker.nickname">
+                <button class="btn btn-primary btn-md" ng-click="add()">Add</button>
+                <i ng-show="loading" class="fa fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    </div>
+    <div class="container" ng-controller="appController">
+        <h2>Quick Daily Cost </h2>
+        <div class="row">
+            <div class="col-md-4">
+                <table class="table table-striped">
+                    <tr ng-repeat='co in cos'>
+                        <td>
+                            <!-- <input type="checkbox" ng-true-value="false" ng-false-value="true" ng-model="todo.isDone" ng-change="update(todo)"> -->
+                            {{ co.netincome }}
+                        </td>
+                        <td>{{ co.location }}</td>
+                        <td>{{ co.personincharge }}</td>
+                        <td>
+                            <button class="btn btn-danger btn-xs" ng-click="delete($index)"> <span class="glyphicon glyphicon-trash"></span></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <input type='text' ng-model="co.netincome">
+                <input type='text' ng-model="co.location">
+                <!-- <input type='text' ng-model="co.personincharge"> -->
+                <select ng-model="co.personincharge" ng-options="worker.nickname for worker in workers"></select>
+                <button class="btn btn-primary btn-md" ng-click="add()">Add</button>
+                <i ng-show="loading" class="fa fa-spinner fa-spin"></i>
+            </div>
+        </div>
+    </div>
+    <script src="lib/jquery/dist/jquery.js"></script>
+    <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-resource/angular-resource.js"></script>
+    <script src="lib/angular-keypad/dist/angular-keypad.js"></script>
+    <script src="js/lb-services.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
