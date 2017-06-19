@@ -6,9 +6,17 @@
     "validateUpsert": true
   },
   "properties": {
+    "bankincash": {
+      "type": "number",
+      "required": true
+    },
     "date": {
       "type": "date",
-      "required": false
+      "required": true
+    },
+    "foodpandaincome": {
+      "type": "number",
+      "required": true
     },
     "outletid": {
       "type": "number",

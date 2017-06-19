@@ -1562,6 +1562,29 @@ paths:
                 type: number
                 format: double
       deprecated: false
+  '/Products/{id}/supplier':
+    get:
+      tags:
+        - Product
+      summary: Fetches belongsTo relation supplier.
+      operationId: Product.prototype.__get__supplier
+      parameters:
+        - name: refresh
+          in: query
+          required: false
+          type: boolean
+        - name: id
+          in: path
+          description: Product id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Supplier'
+      deprecated: false
   /Products:
     post:
       tags:
@@ -2982,6 +3005,29 @@ paths:
                 type: number
                 format: double
       deprecated: false
+  '/CostRecords/{id}/saleRecord':
+    get:
+      tags:
+        - CostRecord
+      summary: Fetches belongsTo relation saleRecord.
+      operationId: CostRecord.prototype.__get__saleRecord
+      parameters:
+        - name: refresh
+          in: query
+          required: false
+          type: boolean
+        - name: id
+          in: path
+          description: CostRecord id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/SaleRecord'
+      deprecated: false
   /CostRecords:
     post:
       tags:
@@ -3342,6 +3388,366 @@ paths:
                 type: number
                 format: double
       deprecated: false
+  /Settings:
+    post:
+      tags:
+        - Setting
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: Setting.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Setting'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Setting'
+      deprecated: false
+    patch:
+      tags:
+        - Setting
+      summary: Patch an existing model instance or insert a new one into the data source.
+      operationId: Setting.patchOrCreate
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Setting'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Setting'
+      deprecated: false
+    put:
+      tags:
+        - Setting
+      summary: Replace an existing model instance or insert a new one into the data source.
+      operationId: Setting.replaceOrCreate__put_Settings
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Setting'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Setting'
+      deprecated: false
+    get:
+      tags:
+        - Setting
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: Setting.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Setting'
+      deprecated: false
+  /Settings/replaceOrCreate:
+    post:
+      tags:
+        - Setting
+      summary: Replace an existing model instance or insert a new one into the data source.
+      operationId: Setting.replaceOrCreate__post_Settings_replaceOrCreate
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Setting'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Setting'
+      deprecated: false
+  /Settings/upsertWithWhere:
+    post:
+      tags:
+        - Setting
+      summary: Update an existing model instance or insert a new one into the data source based on the where criteria.
+      operationId: Setting.upsertWithWhere
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            description: An object of model property name/value pairs
+            $ref: '#/definitions/Setting'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Setting'
+      deprecated: false
+  '/Settings/{id}/exists':
+    get:
+      tags:
+        - Setting
+      summary: Check whether a model instance exists in the data source.
+      operationId: 'Setting.exists__get_Settings_{id}_exists'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              exists:
+                type: boolean
+      deprecated: false
+  '/Settings/{id}':
+    head:
+      tags:
+        - Setting
+      summary: Check whether a model instance exists in the data source.
+      operationId: 'Setting.exists__head_Settings_{id}'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              exists:
+                type: boolean
+      deprecated: false
+    get:
+      tags:
+        - Setting
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: Setting.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: 'Filter defining fields and include - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Setting'
+      deprecated: false
+    put:
+      tags:
+        - Setting
+      summary: Replace attributes for a model instance and persist it into the data source.
+      operationId: 'Setting.replaceById__put_Settings_{id}'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Setting'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Setting'
+      deprecated: false
+    delete:
+      tags:
+        - Setting
+      summary: 'Delete a model instance by {{id}} from the data source.'
+      operationId: Setting.deleteById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+    patch:
+      tags:
+        - Setting
+      summary: Patch attributes for a model instance and persist it into the data source.
+      operationId: Setting.prototype.patchAttributes
+      parameters:
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            description: An object of model property name/value pairs
+            $ref: '#/definitions/Setting'
+        - name: id
+          in: path
+          description: Setting id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Setting'
+      deprecated: false
+  '/Settings/{id}/replace':
+    post:
+      tags:
+        - Setting
+      summary: Replace attributes for a model instance and persist it into the data source.
+      operationId: 'Setting.replaceById__post_Settings_{id}_replace'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Setting'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Setting'
+      deprecated: false
+  /Settings/findOne:
+    get:
+      tags:
+        - Setting
+      summary: Find first instance of the model matched by filter from the data source.
+      operationId: Setting.findOne
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Setting'
+      deprecated: false
+  /Settings/update:
+    post:
+      tags:
+        - Setting
+      summary: 'Update instances of the model matched by {{where}} from the data source.'
+      operationId: Setting.updateAll
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            description: An object of model property name/value pairs
+            $ref: '#/definitions/Setting'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            description: Information related to the outcome of the operation
+            type: object
+            properties:
+              count:
+                description: The number of instances updated
+                type: number
+                format: double
+      deprecated: false
+  /Settings/count:
+    get:
+      tags:
+        - Setting
+      summary: Count instances of the model matched by where from the data source.
+      operationId: Setting.count
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
 definitions:
   x-any:
     properties: {}
@@ -3453,9 +3859,15 @@ definitions:
     additionalProperties: false
   SaleRecord:
     properties:
+      bankincash:
+        type: number
+        format: double
       date:
         type: string
         format: date-time
+      foodpandaincome:
+        type: number
+        format: double
       outletid:
         type: number
         format: double
@@ -3466,6 +3878,9 @@ definitions:
         type: number
         format: double
     required:
+      - bankincash
+      - date
+      - foodpandaincome
       - outletid
       - totalincome
     additionalProperties: false
@@ -3483,26 +3898,42 @@ definitions:
     additionalProperties: false
   CostRecord:
     properties:
-      salerecordid:
-        type: number
-        format: double
+      date:
+        type: string
+        format: date-time
       productid:
         type: number
         format: double
       quantity:
         type: number
         format: double
-      date:
-        type: string
-        format: date-time
+      salerecordid:
+        type: number
+        format: double
+      paid:
+        type: boolean
       id:
         type: number
         format: double
     required:
-      - salerecordid
+      - date
       - productid
       - quantity
-      - date
+      - salerecordid
+      - paid
+    additionalProperties: false
+  Setting:
+    properties:
+      key:
+        type: string
+      value:
+        $ref: '#/definitions/x-any'
+      id:
+        type: number
+        format: double
+    required:
+      - key
+      - value
     additionalProperties: false
 basePath: /api
 swagger: '2.0'

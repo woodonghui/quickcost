@@ -1,52 +1,52 @@
 {
-    "name": "Supplier",
-    "base": "PersistedModel",
-    "idInjection": true,
-    "options": {
-        "validateUpsert": true
+  "name": "Supplier",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "address": {
+      "type": "string",
+      "required": false
     },
-    "properties": {
-        "address": {
-            "type": "string",
-            "required": false
-        },
-        "contact": {
-            "type": "string",
-            "required": false
-        },
-        "fax": {
-            "type": "string",
-            "required": false
-        },
-        "gstnumber": {
-            "type": "string",
-            "required": false
-        },
-        "gstregistered": {
-            "type": "boolean",
-            "required": true
-        },
-        "name": {
-            "type": "string",
-            "required": true
-        },
-        "telephone": {
-            "type": "string",
-            "required": false
-        },
-        "hasterm": {
-            "type": "boolean",
-            "required": true
-        }
+    "contact": {
+      "type": "string",
+      "required": false
     },
-    "validations": [],
-    "relations": {
-        "products": {
-            "type": "hasMany",
-            "model": "Product",
-            "foreignKey": "supplierid"
-        }
+    "fax": {
+      "type": "string",
+      "required": false
     },
-    "acls": [],
-    "methods": {}
+    "gstnumber": {
+      "type": "string",
+      "required": false
+    },
+    "gstregistered": {
+      "type": "boolean",
+      "required": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "telephone": {
+      "type": "string",
+      "required": false
+    },
+    "hasterm": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "products": {
+      "type": "hasMany",
+      "model": "Product",
+      "foreignKey": "supplierid"
+    }
+  },
+  "acls": [],
+  "methods": {}
 }

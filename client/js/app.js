@@ -72,15 +72,46 @@ app.controller('outletController', function($scope, $http, Outlet) {
 });
 
 
-app.controller('saleRecordController', function($scope, $http, Supplier, Outlet) {
+app.controller('listSaleRecordController', function($scope, $http, Outlet, SaleRecord) {
+    $scope.outlets;
+    $scope.tables = {};
+
+    function loadSaleRecords(outlet) {
+        SaleRecord.find({ filter: { where: { outletid: outlet.id } } }).$promise.then(function(records) {
+            $scope.tables[outlet.name] = records;
+            console.log(records);
+        });
+    }
+
+    Outlet.find().$promise.then(function(models) {
+        $scope.outlets = models;
+        for (var i = 0; i < models.length; i++) {
+            var outlet = models[i];
+            loadSaleRecords(outlet);
+        }
+    });
+
+});
+
+
+app.controller('saleRecordController', function($scope, $http, Supplier, Outlet, SaleRecord, CostRecord) {
+
+    $scope.foodpandapayoutrate = 0.635;
 
     $scope.outlets = Outlet.find();
     $scope.outlet;
 
-    //today's total income
-    $scope.totalincome = 0;
+    // sale record to insert
+    $scope.salerecord = {
+        totalincome: 0,
+        bankincash: 0,
+        foodpandaincome: 0,
+        paiditems: [],
+        unpaiditems: [],
+        date: ''
+    };
 
-    $scope.salerecord;
+    $scope.item;
 
     // list all the suppliers
     $scope.suppliers = Supplier.find();
@@ -89,37 +120,141 @@ app.controller('saleRecordController', function($scope, $http, Supplier, Outlet)
     $scope.products;
     $scope.product;
 
-    $scope.costRecords;
+    // prepare all the cost records
     $scope.quantity;
 
     $scope.loading = false;
 
     $scope.$watch('supplier', function(newValue, oldValue) {
-        //console.log(newValue, oldValue);
         if (newValue != undefined) {
             $scope.products = Supplier.products({ id: $scope.supplier.id });
         }
     });
 
-    $scope.appendCost = function() {
-        if (!$scope.costRecords) $scope.costRecords = [];
-        $scope.costRecords.push({
-            supplier: $scope.supplier,
-            product: $scope.product,
-            quantity: $scope.quantity
-        });
-    }
 
-    $scope.removeCost = function($index) {
-        $scope.costRecords.splice($index, 1);
-    }
-
-    $scope.$watch('costRecords', function(newValue, oldValue) {
-        console.log(newValue, oldValue);
-
+    $scope.$watch('salerecord.foodpandaincome', function(newValue, oldValue) {
+        if (newValue != undefined) {
+            $scope.salerecord.totalincome = Number($scope.salerecord.bankincash);
+            for (var i = 0; i < $scope.salerecord.paiditems.length; i++) {
+                var item = $scope.salerecord.paiditems[i];
+                $scope.salerecord.totalincome += item.supplier.gstregistered ?
+                    Number(item.product.unitprice) * Number(item.quantity) * 1.07 : Number(item.product.unitprice) * Number(item.quantity);
+            }
+            $scope.salerecord.totalincome += $scope.salerecord.foodpandaincome * $scope.foodpandapayoutrate;
+            $scope.salerecord.totalincome = parseFloat($scope.salerecord.totalincome.toFixed(2));
+        }
     });
 
-    $scope.add = function() {};
+    $scope.$watch('salerecord.bankincash', function(newValue, oldValue) {
+        if (newValue != undefined) {
+            $scope.salerecord.totalincome = Number($scope.salerecord.bankincash);
+            for (var i = 0; i < $scope.salerecord.paiditems.length; i++) {
+                var item = $scope.salerecord.paiditems[i];
+                $scope.salerecord.totalincome += item.supplier.gstregistered ?
+                    Number(item.product.unitprice) * Number(item.quantity) * 1.07 : Number(item.product.unitprice) * Number(item.quantity);
+            }
+            $scope.salerecord.totalincome += $scope.salerecord.foodpandaincome * $scope.foodpandapayoutrate;
+            $scope.salerecord.totalincome = parseFloat($scope.salerecord.totalincome.toFixed(2));
+        }
+    });
+
+
+    $scope.$watchCollection('salerecord.paiditems', function(newValue, oldValue) {
+        if (newValue != undefined) {
+            $scope.salerecord.totalincome = Number($scope.salerecord.bankincash);
+            for (var i = 0; i < $scope.salerecord.paiditems.length; i++) {
+                var item = $scope.salerecord.paiditems[i];
+                $scope.salerecord.totalincome += item.supplier.gstregistered ?
+                    Number(item.product.unitprice) * Number(item.quantity) * 1.07 : Number(item.product.unitprice) * Number(item.quantity);
+            }
+            $scope.salerecord.totalincome += $scope.salerecord.foodpandaincome * $scope.foodpandapayoutrate;
+            $scope.salerecord.totalincome = parseFloat($scope.salerecord.totalincome.toFixed(2));
+        }
+    });
+
+
+    $scope.appendItem = function() {
+        if ($scope.item.paid) {
+            $scope.salerecord.paiditems.push({
+                supplier: $scope.supplier,
+                product: $scope.product,
+                quantity: $scope.item.quantity,
+                paid: true
+            });
+        } else {
+            $scope.salerecord.unpaiditems.push({
+                supplier: $scope.supplier,
+                product: $scope.product,
+                quantity: $scope.item.quantity,
+                paid: false
+            });
+        }
+    }
+
+    $scope.removeItem = function($index, paid) {
+        if (paid) {
+            $scope.salerecord.paiditems.splice($index, 1);
+        } else {
+            $scope.salerecord.unpaiditems.splice($index, 1);
+        }
+    }
+
+    $scope.add = function() {
+        //console.log($scope.salerecord);
+        var date = new Date(document.getElementById('datetimepicker4').value);
+
+        SaleRecord.create({
+                totalincome: $scope.salerecord.totalincome,
+                bankincash: $scope.salerecord.bankincash,
+                foodpandaincome: $scope.salerecord.foodpandaincome,
+                outletid: $scope.outlet.id,
+                date: date
+            }).$promise
+            .then(function(salerecord) {
+                //console.log(salerecord);
+                if (salerecord) {
+                    var cost = [];
+                    for (var i = 0; i < $scope.salerecord.paiditems.length; i++) {
+                        var item = $scope.salerecord.paiditems[i];
+                        cost.push({
+                            productid: item.product.id,
+                            date: date,
+                            quantity: item.quantity,
+                            paid: true,
+                            salerecordid: salerecord.id
+                        });
+                    }
+                    for (var i = 0; i < $scope.salerecord.unpaiditems.length; i++) {
+                        var item = $scope.salerecord.unpaiditems[i];
+                        cost.push({
+                            productid: item.product.id,
+                            date: date,
+                            quantity: item.quantity,
+                            paid: false,
+                            salerecordid: salerecord.id
+                        });
+                    }
+                    if (cost.length > 0) {
+                        CostRecord.createMany(cost).$promise
+                            .then(function(models) {
+                                //console.log(models);
+
+                                $scope.salerecord = {
+                                    totalincome: 0,
+                                    bankincash: 0,
+                                    foodpandaincome: 0,
+                                    paiditems: [],
+                                    unpaiditems: []
+                                };
+
+                                $scope.item.quantity = 0;
+                                $scope.item.paid = false;
+
+                            });
+                    }
+                }
+            });
+    };
 
     $scope.delete = function($index) {
 

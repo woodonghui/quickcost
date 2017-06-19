@@ -6,8 +6,8 @@
     "validateUpsert": true
   },
   "properties": {
-    "salerecordid": {
-      "type": "number",
+    "date": {
+      "type": "date",
       "required": true
     },
     "productid": {
@@ -18,13 +18,23 @@
       "type": "number",
       "required": true
     },
-    "date": {
-      "type": "date",
+    "salerecordid": {
+      "type": "number",
+      "required": true
+    },
+    "paid": {
+      "type": "boolean",
       "required": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "saleRecord": {
+      "type": "belongsTo",
+      "model": "SaleRecord",
+      "foreignKey": "salerecordid"
+    }
+  },
   "acls": [],
   "methods": {}
 }

@@ -16,3 +16,7 @@ div.form {
 .container table.table td {
     border-top: 1px solid #333333;
 }
+
+.bootstrap-datetimepicker-widget {
+    color: #333333 !important;
+}
