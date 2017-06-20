@@ -33,6 +33,11 @@
       "type": "belongsTo",
       "model": "Supplier",
       "foreignKey": "supplierid"
+    },
+    "costRecords": {
+      "type": "hasMany",
+      "model": "CostRecord",
+      "foreignKey": "productid"
     }
   },
   "acls": [],

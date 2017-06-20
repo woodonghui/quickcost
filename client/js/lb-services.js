@@ -3631,6 +3631,58 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "GET",
             },
 
+            // INTERNAL. Use Product.costRecords.findById() instead.
+            "prototype$__findById__costRecords": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/Products/:id/costRecords/:fk",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Product.costRecords.destroyById() instead.
+            "prototype$__destroyById__costRecords": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/Products/:id/costRecords/:fk",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Product.costRecords.updateById() instead.
+            "prototype$__updateById__costRecords": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/Products/:id/costRecords/:fk",
+              method: "PUT",
+            },
+
+            // INTERNAL. Use Product.costRecords() instead.
+            "prototype$__get__costRecords": {
+              isArray: true,
+              url: urlBase + "/Products/:id/costRecords",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Product.costRecords.create() instead.
+            "prototype$__create__costRecords": {
+              url: urlBase + "/Products/:id/costRecords",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Product.costRecords.destroyAll() instead.
+            "prototype$__delete__costRecords": {
+              url: urlBase + "/Products/:id/costRecords",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Product.costRecords.count() instead.
+            "prototype$__count__costRecords": {
+              url: urlBase + "/Products/:id/costRecords/count",
+              method: "GET",
+            },
+
             /**
              * @ngdoc method
              * @name lbServices.Product#create
@@ -4246,6 +4298,12 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               url: urlBase + "/Suppliers/:id/products/count",
               method: "GET",
             },
+
+            // INTERNAL. Use CostRecord.product() instead.
+            "::get::CostRecord::product": {
+              url: urlBase + "/CostRecords/:id/product",
+              method: "GET",
+            },
           }
         );
 
@@ -4533,6 +4591,341 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         R.supplier = function() {
           var TargetResource = $injector.get("Supplier");
           var action = TargetResource["::get::Product::supplier"];
+          return action.apply(R, arguments);
+        };
+    /**
+     * @ngdoc object
+     * @name lbServices.Product.costRecords
+     * @header lbServices.Product.costRecords
+     * @object
+     * @description
+     *
+     * The object `Product.costRecords` groups methods
+     * manipulating `CostRecord` instances related to `Product`.
+     *
+     * Call {@link lbServices.Product#costRecords Product.costRecords()}
+     * to query all related instances.
+     */
+
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Product#costRecords
+             * @methodOf lbServices.Product
+             *
+             * @description
+             *
+             * Queries costRecords of Product.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Product id
+             *
+             *  - `options` – `{object=}` -
+             *
+             *  - `filter` – `{object=}` -
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `CostRecord` object.)
+             * </em>
+             */
+        R.costRecords = function() {
+          var TargetResource = $injector.get("CostRecord");
+          var action = TargetResource["::get::Product::costRecords"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Product.costRecords#count
+             * @methodOf lbServices.Product.costRecords
+             *
+             * @description
+             *
+             * Counts costRecords of Product.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Product id
+             *
+             *  - `options` – `{object=}` -
+             *
+             *  - `where` – `{object=}` - Criteria to match model instances
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * Data properties:
+             *
+             *  - `count` – `{number=}` -
+             */
+        R.costRecords.count = function() {
+          var TargetResource = $injector.get("CostRecord");
+          var action = TargetResource["::count::Product::costRecords"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Product.costRecords#create
+             * @methodOf lbServices.Product.costRecords
+             *
+             * @description
+             *
+             * Creates a new instance in costRecords of this model.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Product id
+             *
+             * @param {Object} postData Request data.
+             *
+             *  - `options` – `{object=}` -
+             *
+             *  - `data` – `{object=}` -
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `CostRecord` object.)
+             * </em>
+             */
+        R.costRecords.create = function() {
+          var TargetResource = $injector.get("CostRecord");
+          var action = TargetResource["::create::Product::costRecords"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Product.costRecords#createMany
+             * @methodOf lbServices.Product.costRecords
+             *
+             * @description
+             *
+             * Creates a new instance in costRecords of this model.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Product id
+             *
+             * @param {Object} postData Request data.
+             *
+             *  - `options` – `{object=}` -
+             *
+             *  - `data` – `{object=}` -
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Array.<Object>,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Array.<Object>} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `CostRecord` object.)
+             * </em>
+             */
+        R.costRecords.createMany = function() {
+          var TargetResource = $injector.get("CostRecord");
+          var action = TargetResource["::createMany::Product::costRecords"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Product.costRecords#destroyAll
+             * @methodOf lbServices.Product.costRecords
+             *
+             * @description
+             *
+             * Deletes all costRecords of this model.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Product id
+             *
+             *  - `options` – `{object=}` -
+             *
+             *  - `where` – `{object=}` -
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * This method returns no data.
+             */
+        R.costRecords.destroyAll = function() {
+          var TargetResource = $injector.get("CostRecord");
+          var action = TargetResource["::delete::Product::costRecords"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Product.costRecords#destroyById
+             * @methodOf lbServices.Product.costRecords
+             *
+             * @description
+             *
+             * Delete a related item by id for costRecords.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Product id
+             *
+             *  - `options` – `{object=}` -
+             *
+             *  - `fk` – `{*}` - Foreign key for costRecords
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * This method returns no data.
+             */
+        R.costRecords.destroyById = function() {
+          var TargetResource = $injector.get("CostRecord");
+          var action = TargetResource["::destroyById::Product::costRecords"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Product.costRecords#findById
+             * @methodOf lbServices.Product.costRecords
+             *
+             * @description
+             *
+             * Find a related item by id for costRecords.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Product id
+             *
+             *  - `options` – `{object=}` -
+             *
+             *  - `fk` – `{*}` - Foreign key for costRecords
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `CostRecord` object.)
+             * </em>
+             */
+        R.costRecords.findById = function() {
+          var TargetResource = $injector.get("CostRecord");
+          var action = TargetResource["::findById::Product::costRecords"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.Product.costRecords#updateById
+             * @methodOf lbServices.Product.costRecords
+             *
+             * @description
+             *
+             * Update a related item by id for costRecords.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - Product id
+             *
+             *  - `fk` – `{*}` - Foreign key for costRecords
+             *
+             * @param {Object} postData Request data.
+             *
+             *  - `options` – `{object=}` -
+             *
+             *  - `data` – `{object=}` -
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `CostRecord` object.)
+             * </em>
+             */
+        R.costRecords.updateById = function() {
+          var TargetResource = $injector.get("CostRecord");
+          var action = TargetResource["::updateById::Product::costRecords"];
           return action.apply(R, arguments);
         };
 
@@ -7086,6 +7479,12 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "GET",
             },
 
+            // INTERNAL. Use CostRecord.product() instead.
+            "prototype$__get__product": {
+              url: urlBase + "/CostRecords/:id/product",
+              method: "GET",
+            },
+
             /**
              * @ngdoc method
              * @name lbServices.CostRecord#create
@@ -7643,6 +8042,65 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
               method: "POST",
             },
 
+            // INTERNAL. Use Product.costRecords.findById() instead.
+            "::findById::Product::costRecords": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/Products/:id/costRecords/:fk",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Product.costRecords.destroyById() instead.
+            "::destroyById::Product::costRecords": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/Products/:id/costRecords/:fk",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Product.costRecords.updateById() instead.
+            "::updateById::Product::costRecords": {
+              params: {
+                'fk': '@fk',
+              },
+              url: urlBase + "/Products/:id/costRecords/:fk",
+              method: "PUT",
+            },
+
+            // INTERNAL. Use Product.costRecords() instead.
+            "::get::Product::costRecords": {
+              isArray: true,
+              url: urlBase + "/Products/:id/costRecords",
+              method: "GET",
+            },
+
+            // INTERNAL. Use Product.costRecords.create() instead.
+            "::create::Product::costRecords": {
+              url: urlBase + "/Products/:id/costRecords",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Product.costRecords.createMany() instead.
+            "::createMany::Product::costRecords": {
+              isArray: true,
+              url: urlBase + "/Products/:id/costRecords",
+              method: "POST",
+            },
+
+            // INTERNAL. Use Product.costRecords.destroyAll() instead.
+            "::delete::Product::costRecords": {
+              url: urlBase + "/Products/:id/costRecords",
+              method: "DELETE",
+            },
+
+            // INTERNAL. Use Product.costRecords.count() instead.
+            "::count::Product::costRecords": {
+              url: urlBase + "/Products/:id/costRecords/count",
+              method: "GET",
+            },
+
             // INTERNAL. Use SaleRecord.costRecords.findById() instead.
             "::findById::SaleRecord::costRecords": {
               params: {
@@ -7988,6 +8446,46 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' &&
         R.saleRecord = function() {
           var TargetResource = $injector.get("SaleRecord");
           var action = TargetResource["::get::CostRecord::saleRecord"];
+          return action.apply(R, arguments);
+        };
+
+            /**
+             * @ngdoc method
+             * @name lbServices.CostRecord#product
+             * @methodOf lbServices.CostRecord
+             *
+             * @description
+             *
+             * Fetches belongsTo relation product.
+             *
+             * @param {Object=} parameters Request parameters.
+             *
+             *  - `id` – `{*}` - CostRecord id
+             *
+             *  - `options` – `{object=}` -
+             *
+             *  - `refresh` – `{boolean=}` -
+             *
+             *  - `options` – `{object=}` -
+             *
+             * @param {function(Object,Object)=} successCb
+             *   Success callback with two arguments: `value`, `responseHeaders`.
+             *
+             * @param {function(Object)=} errorCb Error callback with one argument:
+             *   `httpResponse`.
+             *
+             * @returns {Object} An empty reference that will be
+             *   populated with the actual data once the response is returned
+             *   from the server.
+             *
+             * <em>
+             * (The remote method definition does not provide any description.
+             * This usually means the response is a `Product` object.)
+             * </em>
+             */
+        R.product = function() {
+          var TargetResource = $injector.get("Product");
+          var action = TargetResource["::get::CostRecord::product"];
           return action.apply(R, arguments);
         };
 

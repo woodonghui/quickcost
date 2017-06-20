@@ -33,6 +33,11 @@
       "type": "belongsTo",
       "model": "SaleRecord",
       "foreignKey": "salerecordid"
+    },
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "productid"
     }
   },
   "acls": [],

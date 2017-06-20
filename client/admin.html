@@ -169,7 +169,7 @@
                                         <td>联系方式</td>
                                         <td>GST？</td>
                                         <td>押账</td>
-                                        <td>更改</td>
+                                        <td>操作</td>
                                     </tr>
                                     <tr ng-repeat='supplier in suppliers'>
                                         <td>{{$index}}</td>
@@ -180,7 +180,7 @@
                                         <td>GST: {{ supplier.gstregistered }}</td>
                                         <td>{{ supplier.hasterm }}</td>
                                         <td>
-                                            <button class="btn btn-danger btn-xs" ng-click="delete($index)">Delete</button>
+                                            <button class="btn btn-danger btn-xs" ng-click="delete($index)">删除</button>
                                         </td>
                                     </tr>
                                 </table>
@@ -256,7 +256,7 @@
                                         <td>{{ product.unitprice }}</td>
                                         <td>{{ product.unit }}</td>
                                         <td>
-                                            <button class="btn btn-danger btn-xs" ng-click="delete($index)">Delete</button>
+                                            <button class="btn btn-danger btn-xs" ng-click="delete($index)">删除</button>
                                         </td>
                                     </tr>
                                 </table>
@@ -303,11 +303,23 @@
         <div class="row">
             <div class="col-sm-12 col-lg-12">
                 <div class="dash-unit free-grow">
-                    <dtitle>档口营业额管理</dtitle>
+                    <dtitle>档口营业额</dtitle>
                     <hr>
                     <div ng-controller="listSaleRecordController">
                         <div class="row">
-                            <div class="col-sm-10 col-lg-10">
+                            <div class="col-sm-6 col-lg-6">
+                                <label>选择年份</label>
+                                <select class="input-lg" ng-model="selection.year" ng-options="year for year in years">
+                                </select>
+                                <label>选择月份</label>
+                                <select class="input-lg" ng-model="selection.month" ng-options="month for month in months">
+                                </select>
+                                <button class="btn btn-primary btn-default" ng-click="search()">查看</button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-8 col-lg-8">
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li role="presentation" ng-class="{'active': $index == 0}" ng-repeat="outlet in outlets"><a href="#{{outlet.name}}" aria-controls="home" role="tab" data-toggle="tab">{{outlet.name}}</a></li>
@@ -322,14 +334,17 @@
                                                 <td>营业额</td>
                                                 <td>熊猫</td>
                                                 <td>现金</td>
-                                                <td>更改</td>
+                                                <td>操作</td>
                                             </tr>
                                             <tr ng-repeat="record in tables[outlet.name]">
-                                                <td>{{$index}}</td>
+                                                <td>{{$index + 1}}</td>
                                                 <td>{{record.date | date: 'yyyy-MM-dd'}}</td>
-                                                <td>{{record.totalincome}}</td>
-                                                <td>{{record.foodpandaincome}}</td>
-                                                <td>{{record.bankincash}}</td>
+                                                <td>${{record.totalincome}}</td>
+                                                <td>${{record.foodpandaincome}}</td>
+                                                <td>${{record.bankincash}}</td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-xs" ng-click="view(outlet, $index)">查看</button>
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
@@ -348,7 +363,7 @@
                     <div ng-controller="saleRecordController">
                         <div class="row">
                             <div class="col-sm-6 col-lg-6">
-                                <h2>档口收入: {{salerecord.totalincome}}</h2>
+                                <h2>档口收入: ${{salerecord.totalincome}}</h2>
                                 <div class="form form-horizontal">
                                     <div class="form-group">
                                         <label for="" class="col-sm-2 control-label">日期</label>
@@ -381,10 +396,15 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <button ng-click="add()">提交确认</button>
+                                            <button class="btn-primary" ng-click="add()">提交营业额 ${{salerecord.totalincome}}</button>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-6">
                                 <h2>现金出账</h2>
                                 <table class="table">
                                     <tr class="header">
@@ -399,10 +419,10 @@
                                         <td>{{ cost.supplier.name }} {{ cost.product.name }}</td>
                                         <td>{{ cost.product.unitprice }}/{{ cost.product.unit }}</td>
                                         <td>{{ cost.quantity }}</td>
-                                        <td>{{ (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
-                                        <td>{{ cost.supplier.gstregistered ? (cost.quantity * cost.product.unitprice*1.07).toFixed(2) : (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
+                                        <td>${{ (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
+                                        <td>${{ cost.supplier.gstregistered ? (cost.quantity * cost.product.unitprice*1.07).toFixed(2) : (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
                                         <td>
-                                            <button class="btn btn-danger btn-xs" ng-click="removeItem($index, true)">Delete</button>
+                                            <button class="btn btn-danger btn-xs" ng-click="removeItem($index, true)">删除</button>
                                         </td>
                                     </tr>
                                 </table>
@@ -420,10 +440,10 @@
                                         <td>{{ cost.supplier.name }} {{ cost.product.name }}</td>
                                         <td>{{ cost.product.unitprice }}/{{ cost.product.unit }}</td>
                                         <td>{{ cost.quantity }}</td>
-                                        <td>{{ (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
-                                        <td>{{ cost.supplier.gstregistered ? (cost.quantity * cost.product.unitprice*1.07).toFixed(2) : (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
+                                        <td>${{ (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
+                                        <td>${{ cost.supplier.gstregistered ? (cost.quantity * cost.product.unitprice*1.07).toFixed(2) : (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
                                         <td>
-                                            <button class="btn btn-danger btn-xs" ng-click="removeItem($index, false)">Delete</button>
+                                            <button class="btn btn-danger btn-xs" ng-click="removeItem($index, false)">删除</button>
                                         </td>
                                     </tr>
                                 </table>

@@ -54,47 +54,82 @@ app.controller('outletController', function($scope, $http, Outlet) {
                 $scope.outlets = Outlet.find();
             });
 
-
         // Outlet.findById({ id: $scope.outlet.id }).$promise  .then(function(outlet) {
         //     outlet.name = $scope.outlet.name;
         //     outlet.$save();
         // });
-
-        //Outlet.update().where()
-
-
     }
-
-    // $scope.update = function(co) {
-    //     co.$save();
-    // };
 
 });
 
 
-app.controller('listSaleRecordController', function($scope, $http, Outlet, SaleRecord) {
+app.controller('listSaleRecordController', function($scope, $rootScope, $http, Outlet, SaleRecord) {
+    var today = new Date();
+
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+
+    $scope.years = [2017, 2018];
+    $scope.months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    $scope.selection = {
+        year: year,
+        month: month
+    }
+
     $scope.outlets;
     $scope.tables = {};
 
+
     function loadSaleRecords(outlet) {
-        SaleRecord.find({ filter: { where: { outletid: outlet.id } } }).$promise.then(function(records) {
+        console.log($scope.selection);
+        var dateofcurrentmonth = new Date($scope.selection.year, $scope.selection.month - 1);
+        var dateofnextmonth = new Date($scope.selection.year, $scope.selection.month);
+        console.log(dateofcurrentmonth, dateofnextmonth);
+
+        SaleRecord.find({
+            filter: {
+                include: { costRecords: [{ product: ['supplier'] }] },
+                where: { and: [{ outletid: outlet.id }, { date: { gt: dateofcurrentmonth } }, { date: { lt: dateofnextmonth } }] },
+                order: 'date ASC'
+            }
+        }).$promise.then(function(records) {
             $scope.tables[outlet.name] = records;
             console.log(records);
         });
     }
 
-    Outlet.find().$promise.then(function(models) {
-        $scope.outlets = models;
-        for (var i = 0; i < models.length; i++) {
-            var outlet = models[i];
-            loadSaleRecords(outlet);
-        }
+
+    var loadAllSaleRecords = function() {
+        $scope.outlets = [];
+        $scope.tables = {};
+        Outlet.find().$promise.then(function(models) {
+            $scope.outlets = models;
+            for (var i = 0; i < models.length; i++) {
+                var outlet = models[i];
+                loadSaleRecords(outlet);
+            }
+        });
+    }
+
+    $rootScope.$on('saleRecordAdded', function() {
+        loadAllSaleRecords();
     });
+
+    $scope.search = function() {
+        loadAllSaleRecords();
+    }
+
+    $scope.view = function(outlet, index) {
+        console.log(outlet, index);
+        console.log($scope.tables[outlet.name][index]);
+    }
+
+    loadAllSaleRecords();
 
 });
 
 
-app.controller('saleRecordController', function($scope, $http, Supplier, Outlet, SaleRecord, CostRecord) {
+app.controller('saleRecordController', function($scope, $rootScope, $http, Supplier, Outlet, SaleRecord, CostRecord) {
 
     $scope.foodpandapayoutrate = 0.635;
 
@@ -250,7 +285,19 @@ app.controller('saleRecordController', function($scope, $http, Supplier, Outlet,
                                 $scope.item.quantity = 0;
                                 $scope.item.paid = false;
 
+                                $rootScope.$broadcast('saleRecordAdded');
+
                             });
+                    } else {
+                        $scope.salerecord = {
+                            totalincome: 0,
+                            bankincash: 0,
+                            foodpandaincome: 0,
+                            paiditems: [],
+                            unpaiditems: []
+                        };
+
+                        $rootScope.$broadcast('saleRecordAdded');
                     }
                 }
             });
