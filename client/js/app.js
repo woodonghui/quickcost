@@ -78,13 +78,12 @@ app.controller('listSaleRecordController', function($scope, $rootScope, $http, O
 
     $scope.outlets;
     $scope.tables = {};
+    $scope.record;
 
 
     function loadSaleRecords(outlet) {
-        console.log($scope.selection);
         var dateofcurrentmonth = new Date($scope.selection.year, $scope.selection.month - 1);
         var dateofnextmonth = new Date($scope.selection.year, $scope.selection.month);
-        console.log(dateofcurrentmonth, dateofnextmonth);
 
         SaleRecord.find({
             filter: {
@@ -94,7 +93,6 @@ app.controller('listSaleRecordController', function($scope, $rootScope, $http, O
             }
         }).$promise.then(function(records) {
             $scope.tables[outlet.name] = records;
-            console.log(records);
         });
     }
 
@@ -120,8 +118,22 @@ app.controller('listSaleRecordController', function($scope, $rootScope, $http, O
     }
 
     $scope.view = function(outlet, index) {
-        console.log(outlet, index);
-        console.log($scope.tables[outlet.name][index]);
+        // console.log(outlet, index);
+        // console.log($scope.tables[outlet.name][index]);
+        $scope.record = {
+            outlet: outlet,
+            detail: $scope.tables[outlet.name][index]
+        }
+    }
+
+    $scope.delete = function(record) {
+        var salerecordid = record.detail.id;
+        SaleRecord.costRecords.destroyAll({ id: salerecordid }).$promise.then(function() {
+            SaleRecord.deleteById({ id: salerecordid }).$promise.then(function() {
+                $scope.record = null;
+                loadAllSaleRecords();
+            });
+        });
     }
 
     loadAllSaleRecords();
@@ -319,8 +331,6 @@ app.controller('supplierController', function($scope, $http, Supplier) {
 
     $scope.add = function() {
         $scope.loading = true;
-
-        console.log($scope.supplier);
 
         Supplier.create({
                 name: $scope.supplier.name,
