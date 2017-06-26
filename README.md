@@ -9,3 +9,4 @@ $lb property
 # Generate angular services
 $ lb-ng server/server.js client/js/lb-services.js
 
+https://vast-eyrie-64017.herokuapp.com/ | https://git.heroku.com/vast-eyrie-64017.git
