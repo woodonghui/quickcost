@@ -28,7 +28,8 @@ app.controller('costController', function($scope, $http, Outlet, SaleRecord) {
                 totalcost += costRecord.product.unitprice * costRecord.quantity * gst;
             }
         }
-        console.log(salerecords, totalincome, totalcost);
+        return totalcost / totalincome;
+        //console.log(salerecords, totalincome, totalcost);
     }
 
     function loadSaleRecords(outlet) {
@@ -42,8 +43,8 @@ app.controller('costController', function($scope, $http, Outlet, SaleRecord) {
                 order: 'date ASC'
             }
         }).$promise.then(function(records) {
-            calculateCost(records);
-            $scope.tables[outlet.name] = records;
+            var cost = calculateCost(records);
+            $scope.tables[outlet.name] = cost;
         });
     }
 

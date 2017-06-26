@@ -19,7 +19,7 @@
             "required": true,
             "mysql": {
                 "columnName": "quantity",
-                "dataType": "decimal"
+                "dataType": "float"
             }
         },
         "salerecordid": {
