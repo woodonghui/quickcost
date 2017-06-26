@@ -1,6 +1,11 @@
 {
-  "db": {
-    "name": "db",
-    "connector": "memory"
-  }
+    "db": {
+        "host": "db-2qu2c0dmj.aliwebs.com",
+        "port": 3306,
+        "database": "2qu2c0dmj",
+        "username": "2qu2c0dmj",
+        "password": "2qu2c0dmj_111",
+        "name": "db",
+        "connector": "mysql"
+    }
 }

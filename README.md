@@ -8,3 +8,4 @@ $lb property
 
 # Generate angular services
 $ lb-ng server/server.js client/js/lb-services.js
+

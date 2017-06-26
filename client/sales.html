@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quick Cost Application</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="assets/css/custom.css" rel="stylesheet">
+    <link href="assets/css/font-style.css" rel="stylesheet">
+    <link href="assets/css/flexslider.css" rel="stylesheet">
+    <link rel="stylesheet" href="lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    <!-- <link href="assets/css/jquery.numpad.css" rel="stylesheet"> -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- Google Fonts call. Font Used Open Sans & Raleway -->
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,300" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+</head>
+
+<body ng-app="App">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">档口管理系统</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="/sales.html">上报营业额</a></li>
+                    <li><a href="/history.html">历史账本</a></li>
+                    <li><a href="/index.html">当月成本</a></li>
+                    <li><a href="/admin.html">设置</a></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div class="container body-container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <div class="dash-unit free-grow">
+                    <dtitle>上报档口营业额</dtitle>
+                    <hr>
+                    <div ng-controller="saleRecordController">
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-6">
+                                <h2>档口收入: ${{salerecord.totalincome}}</h2>
+                                <div class="form form-horizontal">
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">日期</label>
+                                        <div class="col-sm-10">
+                                            <input type='text' ng-model="salerecord.date" class="form-control" id='datetimepicker4' />
+                                            <script type="text/javascript">
+                                            $(function() {
+                                                $('#datetimepicker4').datetimepicker();
+                                            });
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">选择档口</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" ng-model="outlet" ng-options="outlet.name for outlet in outlets"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">剩余现金</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" ng-model="salerecord.bankincash" class="form-control" id="" placeholder="现金余额">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">熊猫外卖</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" ng-model="salerecord.foodpandaincome" class="form-control" id="" placeholder="熊猫外卖">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button class="btn-primary" ng-click="add()">提交营业额 ${{salerecord.totalincome}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-6"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-6">
+                                <h2>现金出账</h2>
+                                <table class="table">
+                                    <tr class="header">
+                                        <td>货</td>
+                                        <td>单价</td>
+                                        <td>数量</td>
+                                        <td>合计</td>
+                                        <td>合计(GST)</td>
+                                        <td>更改</td>
+                                    </tr>
+                                    <tr ng-repeat='cost in salerecord.paiditems'>
+                                        <td>{{ cost.supplier.name }} {{ cost.product.name }}</td>
+                                        <td>{{ cost.product.unitprice }}/{{ cost.product.unit }}</td>
+                                        <td>{{ cost.quantity }}</td>
+                                        <td>${{ (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
+                                        <td>${{ cost.supplier.gstregistered ? (cost.quantity * cost.product.unitprice*1.07).toFixed(2) : (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-xs" ng-click="removeItem($index, true)">删除</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <h2>押账</h2>
+                                <table class="table">
+                                    <tr class="header">
+                                        <td>货</td>
+                                        <td>单价</td>
+                                        <td>数量</td>
+                                        <td>合计</td>
+                                        <td>合计(GST)</td>
+                                        <td>更改</td>
+                                    </tr>
+                                    <tr ng-repeat='cost in salerecord.unpaiditems'>
+                                        <td>{{ cost.supplier.name }} {{ cost.product.name }}</td>
+                                        <td>{{ cost.product.unitprice }}/{{ cost.product.unit }}</td>
+                                        <td>{{ cost.quantity }}</td>
+                                        <td>${{ (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
+                                        <td>${{ cost.supplier.gstregistered ? (cost.quantity * cost.product.unitprice*1.07).toFixed(2) : (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-xs" ng-click="removeItem($index, false)">删除</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-sm-6 col-lg-6">
+                                <h3>货钱</h3>
+                                <div class="form form-horizontal">
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">供应商</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" ng-model="supplier" ng-options="supplier.name for supplier in suppliers"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">商品</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" ng-model="product" ng-options="product.name + ' ' + product.unitprice + '/' + product.unit for product in products"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="" class="col-sm-2 control-label">数量</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" ng-model="item.quantity" class="form-control" id="" placeholder="数量">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input ng-model="item.paid" type="checkbox"> 档口现金出账
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button ng-click="appendItem()" class="btn btn-default">添加</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="assets/js/bootstrap.js"></script>
+    <script type="text/javascript" src="lib/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-resource/angular-resource.js"></script>
+    <script src="lib/angular-keypad/dist/angular-keypad.js"></script>
+    <script src="js/lb-services.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

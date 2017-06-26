@@ -1,5 +1,26 @@
 var app = angular.module('App', ['lbServices', 'bc.AngularKeypad']);
 
+app.controller('loginController', function($scope, $http, User) {
+    $scope.username;
+    $scope.password;
+
+    $scope.login = function() {
+        User.login({ username: $scope.username, password: $scope.password })
+            .$promise.then(function(user) {
+                window.location.href = '/admin.html';
+            }, function(fail) {
+                alert('用户名和密码错误!');
+            });
+    }
+
+    $scope.logout = function() {
+        User.logout().$promise.then(function() {
+            console.log('you are logged out.');
+        });
+
+    }
+});
+
 app.controller('outletController', function($scope, $http, Outlet) {
 
     $scope.outlets = Outlet.find();
@@ -127,11 +148,16 @@ app.controller('listSaleRecordController', function($scope, $rootScope, $http, O
     }
 
     $scope.delete = function(record) {
+        var confirmed = confirm("确定删除吗？");
+        if (!confirmed) return false;
+
+
         var salerecordid = record.detail.id;
         SaleRecord.costRecords.destroyAll({ id: salerecordid }).$promise.then(function() {
             SaleRecord.deleteById({ id: salerecordid }).$promise.then(function() {
                 $scope.record = null;
                 loadAllSaleRecords();
+                alert("记录删除成功！");
             });
         });
     }
@@ -247,7 +273,10 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
     }
 
     $scope.add = function() {
-        //console.log($scope.salerecord);
+
+        var confirmed = confirm("确定上报营业额吗？");
+        if (!confirmed) return false;
+
         var date = new Date(document.getElementById('datetimepicker4').value);
 
         SaleRecord.create({
@@ -298,6 +327,7 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
                                 $scope.item.paid = false;
 
                                 $rootScope.$broadcast('saleRecordAdded');
+                                alert('上报成功！');
 
                             });
                     } else {
@@ -310,6 +340,7 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
                         };
 
                         $rootScope.$broadcast('saleRecordAdded');
+                        alert('上报成功！');
                     }
                 }
             });

@@ -2,8 +2,12 @@ div.form {
     padding: 5px;
 }
 
+.body-container {
+    margin-top: 80px;
+}
+
 .container table.table {
-    margin: 5px;
+    /*margin: 5px;*/
     border-bottom: 1px solid #333333;
 }
 

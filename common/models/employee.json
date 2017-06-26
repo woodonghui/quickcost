@@ -1,32 +1,30 @@
 {
-    "name": "Outlet",
+    "name": "Employee",
     "base": "PersistedModel",
     "idInjection": true,
     "options": {
         "validateUpsert": true
     },
     "properties": {
-        "address": {
-            "type": "string",
+        "joindate": {
+            "type": "date",
             "required": false
         },
         "name": {
             "type": "string",
             "required": true
         },
-        "contact": {
+        "nickname": {
             "type": "string",
-            "required": false
+            "required": true
+        },
+        "salary": {
+            "type": "number",
+            "required": true
         }
     },
     "validations": [],
-    "relations": {
-        "saleRecords": {
-            "type": "hasMany",
-            "model": "SaleRecord",
-            "foreignKey": "outletid"
-        }
-    },
+    "relations": {},
     "acls": [],
     "methods": {}
 }

@@ -1585,6 +1585,176 @@ paths:
           schema:
             $ref: '#/definitions/Supplier'
       deprecated: false
+  '/Products/{id}/costRecords/{fk}':
+    get:
+      tags:
+        - Product
+      summary: Find a related item by id for costRecords.
+      operationId: Product.prototype.__findById__costRecords
+      parameters:
+        - name: fk
+          in: path
+          description: Foreign key for costRecords
+          required: true
+          type: string
+          format: JSON
+        - name: id
+          in: path
+          description: Product id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CostRecord'
+      deprecated: false
+    delete:
+      tags:
+        - Product
+      summary: Delete a related item by id for costRecords.
+      operationId: Product.prototype.__destroyById__costRecords
+      parameters:
+        - name: fk
+          in: path
+          description: Foreign key for costRecords
+          required: true
+          type: string
+          format: JSON
+        - name: id
+          in: path
+          description: Product id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+    put:
+      tags:
+        - Product
+      summary: Update a related item by id for costRecords.
+      operationId: Product.prototype.__updateById__costRecords
+      parameters:
+        - name: fk
+          in: path
+          description: Foreign key for costRecords
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/CostRecord'
+        - name: id
+          in: path
+          description: Product id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CostRecord'
+      deprecated: false
+  '/Products/{id}/costRecords':
+    get:
+      tags:
+        - Product
+      summary: Queries costRecords of Product.
+      operationId: Product.prototype.__get__costRecords
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          type: string
+          format: JSON
+        - name: id
+          in: path
+          description: Product id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CostRecord'
+      deprecated: false
+    post:
+      tags:
+        - Product
+      summary: Creates a new instance in costRecords of this model.
+      operationId: Product.prototype.__create__costRecords
+      parameters:
+        - name: data
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/CostRecord'
+        - name: id
+          in: path
+          description: Product id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/CostRecord'
+      deprecated: false
+    delete:
+      tags:
+        - Product
+      summary: Deletes all costRecords of this model.
+      operationId: Product.prototype.__delete__costRecords
+      parameters:
+        - name: id
+          in: path
+          description: Product id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '204':
+          description: Request was successful
+      deprecated: false
+  '/Products/{id}/costRecords/count':
+    get:
+      tags:
+        - Product
+      summary: Counts costRecords of Product.
+      operationId: Product.prototype.__count__costRecords
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+        - name: id
+          in: path
+          description: Product id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
   /Products:
     post:
       tags:
@@ -3028,6 +3198,29 @@ paths:
           schema:
             $ref: '#/definitions/SaleRecord'
       deprecated: false
+  '/CostRecords/{id}/product':
+    get:
+      tags:
+        - CostRecord
+      summary: Fetches belongsTo relation product.
+      operationId: CostRecord.prototype.__get__product
+      parameters:
+        - name: refresh
+          in: query
+          required: false
+          type: boolean
+        - name: id
+          in: path
+          description: CostRecord id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Product'
+      deprecated: false
   /CostRecords:
     post:
       tags:
@@ -3748,6 +3941,366 @@ paths:
                 type: number
                 format: double
       deprecated: false
+  /Employees:
+    post:
+      tags:
+        - Employee
+      summary: Create a new instance of the model and persist it into the data source.
+      operationId: Employee.create
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Employee'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Employee'
+      deprecated: false
+    patch:
+      tags:
+        - Employee
+      summary: Patch an existing model instance or insert a new one into the data source.
+      operationId: Employee.patchOrCreate
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Employee'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Employee'
+      deprecated: false
+    put:
+      tags:
+        - Employee
+      summary: Replace an existing model instance or insert a new one into the data source.
+      operationId: Employee.replaceOrCreate__put_Employees
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Employee'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Employee'
+      deprecated: false
+    get:
+      tags:
+        - Employee
+      summary: Find all instances of the model matched by filter from the data source.
+      operationId: Employee.find
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Employee'
+      deprecated: false
+  /Employees/replaceOrCreate:
+    post:
+      tags:
+        - Employee
+      summary: Replace an existing model instance or insert a new one into the data source.
+      operationId: Employee.replaceOrCreate__post_Employees_replaceOrCreate
+      parameters:
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Employee'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Employee'
+      deprecated: false
+  /Employees/upsertWithWhere:
+    post:
+      tags:
+        - Employee
+      summary: Update an existing model instance or insert a new one into the data source based on the where criteria.
+      operationId: Employee.upsertWithWhere
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            description: An object of model property name/value pairs
+            $ref: '#/definitions/Employee'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Employee'
+      deprecated: false
+  '/Employees/{id}/exists':
+    get:
+      tags:
+        - Employee
+      summary: Check whether a model instance exists in the data source.
+      operationId: 'Employee.exists__get_Employees_{id}_exists'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              exists:
+                type: boolean
+      deprecated: false
+  '/Employees/{id}':
+    head:
+      tags:
+        - Employee
+      summary: Check whether a model instance exists in the data source.
+      operationId: 'Employee.exists__head_Employees_{id}'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              exists:
+                type: boolean
+      deprecated: false
+    get:
+      tags:
+        - Employee
+      summary: 'Find a model instance by {{id}} from the data source.'
+      operationId: Employee.findById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: filter
+          in: query
+          description: 'Filter defining fields and include - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Employee'
+      deprecated: false
+    put:
+      tags:
+        - Employee
+      summary: Replace attributes for a model instance and persist it into the data source.
+      operationId: 'Employee.replaceById__put_Employees_{id}'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Employee'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Employee'
+      deprecated: false
+    delete:
+      tags:
+        - Employee
+      summary: 'Delete a model instance by {{id}} from the data source.'
+      operationId: Employee.deleteById
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+      deprecated: false
+    patch:
+      tags:
+        - Employee
+      summary: Patch attributes for a model instance and persist it into the data source.
+      operationId: Employee.prototype.patchAttributes
+      parameters:
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            description: An object of model property name/value pairs
+            $ref: '#/definitions/Employee'
+        - name: id
+          in: path
+          description: Employee id
+          required: true
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Employee'
+      deprecated: false
+  '/Employees/{id}/replace':
+    post:
+      tags:
+        - Employee
+      summary: Replace attributes for a model instance and persist it into the data source.
+      operationId: 'Employee.replaceById__post_Employees_{id}_replace'
+      parameters:
+        - name: id
+          in: path
+          description: Model id
+          required: true
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: Model instance data
+          required: false
+          schema:
+            description: Model instance data
+            $ref: '#/definitions/Employee'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Employee'
+      deprecated: false
+  /Employees/findOne:
+    get:
+      tags:
+        - Employee
+      summary: Find first instance of the model matched by filter from the data source.
+      operationId: Employee.findOne
+      parameters:
+        - name: filter
+          in: query
+          description: 'Filter defining fields, where, include, order, offset, and limit - must be a JSON-encoded string ({"something":"value"})'
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Employee'
+      deprecated: false
+  /Employees/update:
+    post:
+      tags:
+        - Employee
+      summary: 'Update instances of the model matched by {{where}} from the data source.'
+      operationId: Employee.updateAll
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+        - name: data
+          in: body
+          description: An object of model property name/value pairs
+          required: false
+          schema:
+            description: An object of model property name/value pairs
+            $ref: '#/definitions/Employee'
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            description: Information related to the outcome of the operation
+            type: object
+            properties:
+              count:
+                description: The number of instances updated
+                type: number
+                format: double
+      deprecated: false
+  /Employees/count:
+    get:
+      tags:
+        - Employee
+      summary: Count instances of the model matched by where from the data source.
+      operationId: Employee.count
+      parameters:
+        - name: where
+          in: query
+          description: Criteria to match model instances
+          required: false
+          type: string
+          format: JSON
+      responses:
+        '200':
+          description: Request was successful
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                format: double
+      deprecated: false
 definitions:
   x-any:
     properties: {}
@@ -3857,6 +4410,32 @@ definitions:
       - name
       - hasterm
     additionalProperties: false
+  CostRecord:
+    properties:
+      date:
+        type: string
+        format: date-time
+      productid:
+        type: number
+        format: double
+      quantity:
+        type: number
+        format: double
+      salerecordid:
+        type: number
+        format: double
+      paid:
+        type: boolean
+      id:
+        type: number
+        format: double
+    required:
+      - date
+      - productid
+      - quantity
+      - salerecordid
+      - paid
+    additionalProperties: false
   SaleRecord:
     properties:
       bankincash:
@@ -3886,41 +4465,17 @@ definitions:
     additionalProperties: false
   Outlet:
     properties:
+      address:
+        type: string
       name:
         type: string
-      address:
+      contact:
         type: string
       id:
         type: number
         format: double
     required:
       - name
-    additionalProperties: false
-  CostRecord:
-    properties:
-      date:
-        type: string
-        format: date-time
-      productid:
-        type: number
-        format: double
-      quantity:
-        type: number
-        format: double
-      salerecordid:
-        type: number
-        format: double
-      paid:
-        type: boolean
-      id:
-        type: number
-        format: double
-    required:
-      - date
-      - productid
-      - quantity
-      - salerecordid
-      - paid
     additionalProperties: false
   Setting:
     properties:
@@ -3934,6 +4489,26 @@ definitions:
     required:
       - key
       - value
+    additionalProperties: false
+  Employee:
+    properties:
+      joindate:
+        type: string
+        format: date-time
+      name:
+        type: string
+      nickname:
+        type: string
+      salary:
+        type: number
+        format: double
+      id:
+        type: number
+        format: double
+    required:
+      - name
+      - nickname
+      - salary
     additionalProperties: false
 basePath: /api
 swagger: '2.0'
