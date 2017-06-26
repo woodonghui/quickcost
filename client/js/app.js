@@ -384,13 +384,15 @@ app.controller('productController', function($scope, $http, Product, Supplier) {
                 name: $scope.product.name,
                 unitprice: $scope.product.unitprice,
                 supplierid: $scope.product.supplier.id,
-                unit: $scope.product.unit
+                unit: $scope.product.unit,
+                costexcluded: $scope.product.costexcluded || false
             }).$promise
             .then(function(product) {
                 $scope.products.push(product);
                 $scope.product.name = '';
                 $scope.product.unitprice = '';
                 $scope.product.unit = '';
+                $scope.product.costexcluded = false;
                 $scope.loading = false;
             });
 

@@ -1,49 +1,53 @@
 {
-    "name": "Product",
-    "base": "PersistedModel",
-    "idInjection": true,
-    "options": {
-        "validateUpsert": true
+  "name": "Product",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
     },
-    "properties": {
-        "name": {
-            "type": "string",
-            "required": true
-        },
-        "sku": {
-            "type": "string",
-            "required": false
-        },
-        "supplierid": {
-            "type": "number",
-            "required": true
-        },
-        "unitprice": {
-            "type": "number",
-            "required": true,
-            "mysql": {
-                "columnName": "unitprice",
-                "dataType": "float"
-            }
-        },
-        "unit": {
-            "type": "string",
-            "required": false
-        }
+    "sku": {
+      "type": "string",
+      "required": false
     },
-    "validations": [],
-    "relations": {
-        "supplier": {
-            "type": "belongsTo",
-            "model": "Supplier",
-            "foreignKey": "supplierid"
-        },
-        "costRecords": {
-            "type": "hasMany",
-            "model": "CostRecord",
-            "foreignKey": "productid"
-        }
+    "supplierid": {
+      "type": "number",
+      "required": true
     },
-    "acls": [],
-    "methods": {}
+    "unit": {
+      "type": "string",
+      "required": false
+    },
+    "unitprice": {
+      "type": "number",
+      "required": true,
+      "mysql": {
+        "columnName": "unitprice",
+        "dataType": "float"
+      }
+    },
+    "costexcluded": {
+      "type": "boolean",
+      "required": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "supplier": {
+      "type": "belongsTo",
+      "model": "Supplier",
+      "foreignKey": "supplierid"
+    },
+    "costRecords": {
+      "type": "hasMany",
+      "model": "CostRecord",
+      "foreignKey": "productid"
+    }
+  },
+  "acls": [],
+  "methods": {}
 }

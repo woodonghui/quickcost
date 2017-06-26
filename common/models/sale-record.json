@@ -1,52 +1,52 @@
 {
-    "name": "SaleRecord",
-    "base": "PersistedModel",
-    "idInjection": true,
-    "options": {
-        "validateUpsert": true
+  "name": "SaleRecord",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "bankincash": {
+      "type": "number",
+      "required": true,
+      "mysql": {
+        "columnName": "bankincash",
+        "dataType": "float"
+      }
     },
-    "properties": {
-        "bankincash": {
-            "type": "number",
-            "required": true,
-            "mysql": {
-                "columnName": "bankincash",
-                "dataType": "float"
-            }
-        },
-        "date": {
-            "type": "date",
-            "required": true
-        },
-        "foodpandaincome": {
-            "type": "number",
-            "required": true,
-            "mysql": {
-                "columnName": "foodpandaincome",
-                "dataType": "float"
-            }
-        },
-        "outletid": {
-            "type": "number",
-            "required": true
-        },
-        "totalincome": {
-            "type": "number",
-            "required": true,
-            "mysql": {
-                "columnName": "totalincome",
-                "dataType": "float"
-            }
-        }
+    "date": {
+      "type": "date",
+      "required": true
     },
-    "validations": [],
-    "relations": {
-        "costRecords": {
-            "type": "hasMany",
-            "model": "CostRecord",
-            "foreignKey": "salerecordid"
-        }
+    "foodpandaincome": {
+      "type": "number",
+      "required": true,
+      "mysql": {
+        "columnName": "foodpandaincome",
+        "dataType": "float"
+      }
     },
-    "acls": [],
-    "methods": {}
+    "outletid": {
+      "type": "number",
+      "required": true
+    },
+    "totalincome": {
+      "type": "number",
+      "required": true,
+      "mysql": {
+        "columnName": "totalincome",
+        "dataType": "float"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {
+    "costRecords": {
+      "type": "hasMany",
+      "model": "CostRecord",
+      "foreignKey": "salerecordid"
+    }
+  },
+  "acls": [],
+  "methods": {}
 }

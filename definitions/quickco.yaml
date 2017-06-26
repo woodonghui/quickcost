@@ -4371,11 +4371,13 @@ definitions:
       supplierid:
         type: number
         format: double
+      unit:
+        type: string
       unitprice:
         type: number
         format: double
-      unit:
-        type: string
+      costexcluded:
+        type: boolean
       id:
         type: number
         format: double

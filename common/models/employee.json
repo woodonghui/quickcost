@@ -1,30 +1,30 @@
 {
-    "name": "Employee",
-    "base": "PersistedModel",
-    "idInjection": true,
-    "options": {
-        "validateUpsert": true
+  "name": "Employee",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "joindate": {
+      "type": "date",
+      "required": false
     },
-    "properties": {
-        "joindate": {
-            "type": "date",
-            "required": false
-        },
-        "name": {
-            "type": "string",
-            "required": true
-        },
-        "nickname": {
-            "type": "string",
-            "required": true
-        },
-        "salary": {
-            "type": "number",
-            "required": true
-        }
+    "name": {
+      "type": "string",
+      "required": true
     },
-    "validations": [],
-    "relations": {},
-    "acls": [],
-    "methods": {}
+    "nickname": {
+      "type": "string",
+      "required": true
+    },
+    "salary": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
 }

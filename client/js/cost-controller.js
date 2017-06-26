@@ -24,11 +24,14 @@ app.controller('costController', function($scope, $http, Outlet, SaleRecord) {
             totalincome += salerecord.totalincome;
             for (var j = 0; j < salerecord.costRecords.length; j++) {
                 var costRecord = salerecord.costRecords[j];
-                var gst = costRecord.product.supplier.gstregistered ? 1.07 : 1;
-                totalcost += costRecord.product.unitprice * costRecord.quantity * gst;
+                if (!costRecord.product.costexcluded) {
+                    var gst = costRecord.product.supplier.gstregistered ? 1.07 : 1;
+                    totalcost += costRecord.product.unitprice * costRecord.quantity * gst;
+                }
             }
         }
-        return totalcost / totalincome;
+        // return totalcost / totalincome;
+        return parseFloat((totalcost / totalincome).toFixed(4)) * 100;
         //console.log(salerecords, totalincome, totalcost);
     }
 

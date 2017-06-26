@@ -1,49 +1,49 @@
 {
-    "name": "CostRecord",
-    "base": "PersistedModel",
-    "idInjection": true,
-    "options": {
-        "validateUpsert": true
+  "name": "CostRecord",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "date",
+      "required": true
     },
-    "properties": {
-        "date": {
-            "type": "date",
-            "required": true
-        },
-        "productid": {
-            "type": "number",
-            "required": true
-        },
-        "quantity": {
-            "type": "number",
-            "required": true,
-            "mysql": {
-                "columnName": "quantity",
-                "dataType": "float"
-            }
-        },
-        "salerecordid": {
-            "type": "number",
-            "required": true
-        },
-        "paid": {
-            "type": "boolean",
-            "required": true
-        }
+    "productid": {
+      "type": "number",
+      "required": true
     },
-    "validations": [],
-    "relations": {
-        "saleRecord": {
-            "type": "belongsTo",
-            "model": "SaleRecord",
-            "foreignKey": "salerecordid"
-        },
-        "product": {
-            "type": "belongsTo",
-            "model": "Product",
-            "foreignKey": "productid"
-        }
+    "quantity": {
+      "type": "number",
+      "required": true,
+      "mysql": {
+        "columnName": "quantity",
+        "dataType": "float"
+      }
     },
-    "acls": [],
-    "methods": {}
+    "salerecordid": {
+      "type": "number",
+      "required": true
+    },
+    "paid": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "saleRecord": {
+      "type": "belongsTo",
+      "model": "SaleRecord",
+      "foreignKey": "salerecordid"
+    },
+    "product": {
+      "type": "belongsTo",
+      "model": "Product",
+      "foreignKey": "productid"
+    }
+  },
+  "acls": [],
+  "methods": {}
 }
