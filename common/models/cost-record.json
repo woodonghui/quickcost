@@ -1,45 +1,49 @@
 {
-  "name": "CostRecord",
-  "base": "PersistedModel",
-  "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
-  "properties": {
-    "date": {
-      "type": "date",
-      "required": true
+    "name": "CostRecord",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
     },
-    "productid": {
-      "type": "number",
-      "required": true
+    "properties": {
+        "date": {
+            "type": "date",
+            "required": true
+        },
+        "productid": {
+            "type": "number",
+            "required": true
+        },
+        "quantity": {
+            "type": "number",
+            "required": true,
+            "mysql": {
+                "columnName": "quantity",
+                "dataType": "decimal"
+            }
+        },
+        "salerecordid": {
+            "type": "number",
+            "required": true
+        },
+        "paid": {
+            "type": "boolean",
+            "required": true
+        }
     },
-    "quantity": {
-      "type": "number",
-      "required": true
+    "validations": [],
+    "relations": {
+        "saleRecord": {
+            "type": "belongsTo",
+            "model": "SaleRecord",
+            "foreignKey": "salerecordid"
+        },
+        "product": {
+            "type": "belongsTo",
+            "model": "Product",
+            "foreignKey": "productid"
+        }
     },
-    "salerecordid": {
-      "type": "number",
-      "required": true
-    },
-    "paid": {
-      "type": "boolean",
-      "required": true
-    }
-  },
-  "validations": [],
-  "relations": {
-    "saleRecord": {
-      "type": "belongsTo",
-      "model": "SaleRecord",
-      "foreignKey": "salerecordid"
-    },
-    "product": {
-      "type": "belongsTo",
-      "model": "Product",
-      "foreignKey": "productid"
-    }
-  },
-  "acls": [],
-  "methods": {}
+    "acls": [],
+    "methods": {}
 }

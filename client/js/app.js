@@ -176,9 +176,9 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
 
     // sale record to insert
     $scope.salerecord = {
-        totalincome: 0,
-        bankincash: 0,
-        foodpandaincome: 0,
+        totalincome: null,
+        bankincash: null,
+        foodpandaincome: null,
         paiditems: [],
         unpaiditems: [],
         date: ''
@@ -204,45 +204,28 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
         }
     });
 
+    function calculateTotalIncome() {
+        $scope.salerecord.totalincome = Number($scope.salerecord.bankincash || 0);
+        for (var i = 0; i < $scope.salerecord.paiditems.length; i++) {
+            var item = $scope.salerecord.paiditems[i];
+            $scope.salerecord.totalincome += item.supplier.gstregistered ?
+                Number(item.product.unitprice) * Number(item.quantity) * 1.07 : Number(item.product.unitprice) * Number(item.quantity);
+        }
+        $scope.salerecord.totalincome += ($scope.salerecord.foodpandaincome || 0) * $scope.foodpandapayoutrate;
+        $scope.salerecord.totalincome = parseFloat($scope.salerecord.totalincome.toFixed(2));
+
+    }
 
     $scope.$watch('salerecord.foodpandaincome', function(newValue, oldValue) {
-        if (newValue != undefined) {
-            $scope.salerecord.totalincome = Number($scope.salerecord.bankincash);
-            for (var i = 0; i < $scope.salerecord.paiditems.length; i++) {
-                var item = $scope.salerecord.paiditems[i];
-                $scope.salerecord.totalincome += item.supplier.gstregistered ?
-                    Number(item.product.unitprice) * Number(item.quantity) * 1.07 : Number(item.product.unitprice) * Number(item.quantity);
-            }
-            $scope.salerecord.totalincome += $scope.salerecord.foodpandaincome * $scope.foodpandapayoutrate;
-            $scope.salerecord.totalincome = parseFloat($scope.salerecord.totalincome.toFixed(2));
-        }
+        calculateTotalIncome();
     });
 
     $scope.$watch('salerecord.bankincash', function(newValue, oldValue) {
-        if (newValue != undefined) {
-            $scope.salerecord.totalincome = Number($scope.salerecord.bankincash);
-            for (var i = 0; i < $scope.salerecord.paiditems.length; i++) {
-                var item = $scope.salerecord.paiditems[i];
-                $scope.salerecord.totalincome += item.supplier.gstregistered ?
-                    Number(item.product.unitprice) * Number(item.quantity) * 1.07 : Number(item.product.unitprice) * Number(item.quantity);
-            }
-            $scope.salerecord.totalincome += $scope.salerecord.foodpandaincome * $scope.foodpandapayoutrate;
-            $scope.salerecord.totalincome = parseFloat($scope.salerecord.totalincome.toFixed(2));
-        }
+        calculateTotalIncome();
     });
 
-
     $scope.$watchCollection('salerecord.paiditems', function(newValue, oldValue) {
-        if (newValue != undefined) {
-            $scope.salerecord.totalincome = Number($scope.salerecord.bankincash);
-            for (var i = 0; i < $scope.salerecord.paiditems.length; i++) {
-                var item = $scope.salerecord.paiditems[i];
-                $scope.salerecord.totalincome += item.supplier.gstregistered ?
-                    Number(item.product.unitprice) * Number(item.quantity) * 1.07 : Number(item.product.unitprice) * Number(item.quantity);
-            }
-            $scope.salerecord.totalincome += $scope.salerecord.foodpandaincome * $scope.foodpandapayoutrate;
-            $scope.salerecord.totalincome = parseFloat($scope.salerecord.totalincome.toFixed(2));
-        }
+        calculateTotalIncome();
     });
 
 
@@ -273,28 +256,24 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
     }
 
     $scope.add = function() {
-
         var confirmed = confirm("确定上报营业额吗？");
         if (!confirmed) return false;
 
-        var date = new Date(document.getElementById('datetimepicker4').value);
-
         SaleRecord.create({
-                totalincome: $scope.salerecord.totalincome,
-                bankincash: $scope.salerecord.bankincash,
-                foodpandaincome: $scope.salerecord.foodpandaincome,
+                totalincome: $scope.salerecord.totalincome || 0,
+                bankincash: $scope.salerecord.bankincash || 0,
+                foodpandaincome: $scope.salerecord.foodpandaincome || 0,
                 outletid: $scope.outlet.id,
-                date: date
+                date: $scope.salerecord.date
             }).$promise
             .then(function(salerecord) {
-                //console.log(salerecord);
                 if (salerecord) {
                     var cost = [];
                     for (var i = 0; i < $scope.salerecord.paiditems.length; i++) {
                         var item = $scope.salerecord.paiditems[i];
                         cost.push({
                             productid: item.product.id,
-                            date: date,
+                            date: $scope.salerecord.date,
                             quantity: item.quantity,
                             paid: true,
                             salerecordid: salerecord.id
@@ -304,7 +283,7 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
                         var item = $scope.salerecord.unpaiditems[i];
                         cost.push({
                             productid: item.product.id,
-                            date: date,
+                            date: $scope.salerecord.date,
                             quantity: item.quantity,
                             paid: false,
                             salerecordid: salerecord.id
@@ -313,12 +292,10 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
                     if (cost.length > 0) {
                         CostRecord.createMany(cost).$promise
                             .then(function(models) {
-                                //console.log(models);
-
                                 $scope.salerecord = {
                                     totalincome: 0,
-                                    bankincash: 0,
-                                    foodpandaincome: 0,
+                                    bankincash: null,
+                                    foodpandaincome: null,
                                     paiditems: [],
                                     unpaiditems: []
                                 };
@@ -333,8 +310,8 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
                     } else {
                         $scope.salerecord = {
                             totalincome: 0,
-                            bankincash: 0,
-                            foodpandaincome: 0,
+                            bankincash: null,
+                            foodpandaincome: null,
                             paiditems: [],
                             unpaiditems: []
                         };
@@ -389,10 +366,6 @@ app.controller('supplierController', function($scope, $http, Supplier) {
         });
     };
 
-    // $scope.update = function(co) {
-    //     co.$save();
-    // };
-
 });
 
 
@@ -432,85 +405,4 @@ app.controller('productController', function($scope, $http, Product, Supplier) {
             $scope.loading = false;
         });
     };
-
-    // $scope.update = function(co) {
-    //     co.$save();
-    // };
-
 });
-
-
-// app.controller('appController', function($scope, $http, Co, Worker) {
-
-//      $scope.workers = Worker.find();
-//      $scope.cos = Co.find();
-//      $scope.co;
-//      $scope.loading=false;
-
-//      $scope.add = function(){
-//          $scope.loading=true;
-
-//          Co.create({netincome: $scope.co.netincome, location: $scope.co.location, personincharge: $scope.co.personincharge.nickname, date: new Date() }).$promise
-//               .then(function(co) { 
-//                      $scope.cos.push(co);
-//                      $scope.co.netincome='';
-//                      $scope.co.location='';
-//                      $scope.co.personincharge='';
-//                      $scope.loading=false;
-//                });;
-//      };
-
-//      $scope.delete = function($index){
-//          $scope.loading=true;
-//          var co = $scope.cos[$index];
-
-//          Co.deleteById({ id: co.id}).$promise
-//              .then(function() {
-//              $scope.cos.splice($index,1);
-//              $scope.loading=false;
-//           });
-//      };
-
-//      $scope.update = function(co){
-//          co.$save();
-//      };
-
-// });
-
-
-
-// app.controller('workerController', function($scope, $http, Worker) {
-
-//      $scope.workers = Worker.find();
-//      $scope.worker;
-//      $scope.loading=false;
-
-//      $scope.add = function(){
-//          $scope.loading=true;
-
-//          Worker.create({firstname: $scope.worker.firstname, lastname: $scope.worker.lastname, nickname: $scope.worker.nickname, joindate: new Date() }).$promise
-//               .then(function(worker) { 
-//                      $scope.workers.push(worker);
-//                      $scope.worker.firstname='';
-//                      $scope.worker.lastname='';
-//                      $scope.worker.nickname='';
-//                      $scope.loading=false;
-//                });;
-//      };
-
-//      $scope.delete = function($index){
-//          $scope.loading=true;
-//          var worker = $scope.workers[$index];
-
-//          Worker.deleteById({ id: worker.id}).$promise
-//              .then(function() {
-//              $scope.workers.splice($index,1);
-//              $scope.loading=false;
-//           });
-//      };
-
-//      $scope.update = function(worker){
-//          worker.$save();
-//      };
-
-// });

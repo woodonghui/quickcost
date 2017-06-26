@@ -1,40 +1,52 @@
 {
-  "name": "SaleRecord",
-  "base": "PersistedModel",
-  "idInjection": true,
-  "options": {
-    "validateUpsert": true
-  },
-  "properties": {
-    "bankincash": {
-      "type": "number",
-      "required": true
+    "name": "SaleRecord",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
     },
-    "date": {
-      "type": "date",
-      "required": true
+    "properties": {
+        "bankincash": {
+            "type": "number",
+            "required": true,
+            "mysql": {
+                "columnName": "bankincash",
+                "dataType": "decimal"
+            }
+        },
+        "date": {
+            "type": "date",
+            "required": true
+        },
+        "foodpandaincome": {
+            "type": "number",
+            "required": true,
+            "mysql": {
+                "columnName": "foodpandaincome",
+                "dataType": "decimal"
+            }
+        },
+        "outletid": {
+            "type": "number",
+            "required": true
+        },
+        "totalincome": {
+            "type": "number",
+            "required": true,
+            "mysql": {
+                "columnName": "totalincome",
+                "dataType": "decimal"
+            }
+        }
     },
-    "foodpandaincome": {
-      "type": "number",
-      "required": true
+    "validations": [],
+    "relations": {
+        "costRecords": {
+            "type": "hasMany",
+            "model": "CostRecord",
+            "foreignKey": "salerecordid"
+        }
     },
-    "outletid": {
-      "type": "number",
-      "required": true
-    },
-    "totalincome": {
-      "type": "number",
-      "required": true
-    }
-  },
-  "validations": [],
-  "relations": {
-    "costRecords": {
-      "type": "hasMany",
-      "model": "CostRecord",
-      "foreignKey": "salerecordid"
-    }
-  },
-  "acls": [],
-  "methods": {}
+    "acls": [],
+    "methods": {}
 }
