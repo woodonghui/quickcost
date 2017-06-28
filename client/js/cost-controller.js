@@ -1,7 +1,6 @@
-app.controller('costController', function($scope, $http, Outlet, SaleRecord) {
+app.controller('costController', function ($scope, $http, Outlet, SaleRecord) {
 
     var today = new Date();
-    console.log(today);
 
     var year = today.getFullYear();
     var month = today.getMonth() + 1;
@@ -24,9 +23,8 @@ app.controller('costController', function($scope, $http, Outlet, SaleRecord) {
             totalincome += salerecord.totalincome;
             for (var j = 0; j < salerecord.costRecords.length; j++) {
                 var costRecord = salerecord.costRecords[j];
-                if (!costRecord.product.costexcluded) {
-                    var gst = costRecord.product.supplier.gstregistered ? 1.07 : 1;
-                    totalcost += costRecord.product.unitprice * costRecord.quantity * gst;
+                if (!costRecord.excludeincosting) {
+                    totalcost += costRecord.unitprice * costRecord.quantity * (1 + costRecord.gst);
                 }
             }
         }
@@ -45,16 +43,16 @@ app.controller('costController', function($scope, $http, Outlet, SaleRecord) {
                 where: { and: [{ outletid: outlet.id }, { date: { gt: dateofcurrentmonth } }, { date: { lt: dateofnextmonth } }] },
                 order: 'date ASC'
             }
-        }).$promise.then(function(records) {
+        }).$promise.then(function (records) {
             var cost = calculateCost(records);
             $scope.tables[outlet.name] = cost;
         });
     }
 
-    var loadAllSaleRecords = function() {
+    var loadAllSaleRecords = function () {
         $scope.outlets = [];
         $scope.tables = {};
-        Outlet.find().$promise.then(function(models) {
+        Outlet.find().$promise.then(function (models) {
             $scope.outlets = models;
             for (var i = 0; i < models.length; i++) {
                 var outlet = models[i];

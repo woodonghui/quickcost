@@ -170,6 +170,7 @@ app.controller('listSaleRecordController', function($scope, $rootScope, $http, O
 app.controller('saleRecordController', function($scope, $rootScope, $http, Supplier, Outlet, SaleRecord, CostRecord) {
 
     $scope.foodpandapayoutrate = 0.635;
+    $scope.gst = 0.07;
 
     $scope.outlets = Outlet.find();
     $scope.outlet;
@@ -192,15 +193,13 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
     // list all the products under the selected supplier
     $scope.products;
     $scope.product;
-
     // prepare all the cost records
     $scope.quantity;
-
     $scope.loading = false;
 
     $scope.$watch('supplier', function(newValue, oldValue) {
         if (newValue != undefined) {
-            $scope.products = Supplier.products({ id: $scope.supplier.id });
+            $scope.products = Supplier.products({ id: $scope.supplier.id,  filter: { include: 'supplier' }  });
         }
     });
 
@@ -228,21 +227,26 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
         calculateTotalIncome();
     });
 
-
     $scope.appendItem = function() {
         if ($scope.item.paid) {
             $scope.salerecord.paiditems.push({
                 supplier: $scope.supplier,
                 product: $scope.product,
                 quantity: $scope.item.quantity,
-                paid: true
+                unitprice: $scope.product.unitprice,
+                gst: $scope.product.supplier.gstregistered ? $scope.gst : 0,
+                paid: true,
+                excludeincosting: $scope.item.excludeincosting || false
             });
         } else {
             $scope.salerecord.unpaiditems.push({
                 supplier: $scope.supplier,
                 product: $scope.product,
                 quantity: $scope.item.quantity,
-                paid: false
+                unitprice: $scope.product.unitprice,
+                gst: $scope.product.supplier.gstregistered ? $scope.gst : 0,
+                paid: false,
+                excludeincosting: $scope.item.excludeincosting || false
             });
         }
     }
@@ -276,7 +280,10 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
                             date: $scope.salerecord.date,
                             quantity: item.quantity,
                             paid: true,
-                            salerecordid: salerecord.id
+                            salerecordid: salerecord.id,
+                            unitprice: item.unitprice,
+                            gst: item.gst,
+                            excludeincosting: item.excludeincosting
                         });
                     }
                     for (var i = 0; i < $scope.salerecord.unpaiditems.length; i++) {
@@ -286,7 +293,10 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
                             date: $scope.salerecord.date,
                             quantity: item.quantity,
                             paid: false,
-                            salerecordid: salerecord.id
+                            salerecordid: salerecord.id,
+                            unitprice: item.unitprice,
+                            gst: item.gst,
+                            excludeincosting: item.excludeincosting
                         });
                     }
                     if (cost.length > 0) {
@@ -302,6 +312,7 @@ app.controller('saleRecordController', function($scope, $rootScope, $http, Suppl
 
                                 $scope.item.quantity = 0;
                                 $scope.item.paid = false;
+                                $scope.item.excludeincosting = false;
 
                                 $rootScope.$broadcast('saleRecordAdded');
                                 alert('上报成功！');
@@ -384,18 +395,15 @@ app.controller('productController', function($scope, $http, Product, Supplier) {
                 name: $scope.product.name,
                 unitprice: $scope.product.unitprice,
                 supplierid: $scope.product.supplier.id,
-                unit: $scope.product.unit,
-                costexcluded: $scope.product.costexcluded || false
+                unit: $scope.product.unit
             }).$promise
             .then(function(product) {
                 $scope.products.push(product);
                 $scope.product.name = '';
                 $scope.product.unitprice = '';
                 $scope.product.unit = '';
-                $scope.product.costexcluded = false;
                 $scope.loading = false;
             });
-
     };
 
     $scope.delete = function($index) {

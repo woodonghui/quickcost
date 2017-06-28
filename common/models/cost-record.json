@@ -10,6 +10,10 @@
       "type": "date",
       "required": true
     },
+    "paid": {
+      "type": "boolean",
+      "required": true
+    },
     "productid": {
       "type": "number",
       "required": true
@@ -26,9 +30,25 @@
       "type": "number",
       "required": true
     },
-    "paid": {
+    "excludeincosting": {
       "type": "boolean",
-      "required": true
+      "required": false
+    },
+    "unitprice": {
+      "type": "number",
+      "required": false,
+      "mysql": {
+        "columnName": "unitprice",
+        "dataType": "float"
+      }
+    },
+    "gst": {
+      "type": "number",
+      "required": false,
+      "mysql": {
+        "columnName": "gst",
+        "dataType": "float"
+      }
     }
   },
   "validations": [],

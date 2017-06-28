@@ -79,7 +79,7 @@
                                     <div role="tabpanel" ng-class="{'tab-pane': true, 'active': $index == 0}" ng-repeat="outlet in outlets" id="{{outlet.name}}">
                                         <table class="table">
                                             <tr class="header">
-                                                <td>#</td>
+                                                <!--<td>#</td>-->
                                                 <td>日期</td>
                                                 <td>营业额</td>
                                                 <td>熊猫</td>
@@ -87,8 +87,8 @@
                                                 <td>操作</td>
                                             </tr>
                                             <tr ng-repeat="record in tables[outlet.name]">
-                                                <td>{{$index + 1}}</td>
-                                                <td>{{record.date | date: 'yyyy-MM-dd'}}</td>
+                                                <!--<td>{{$index + 1}}</td>-->
+                                                <td>{{record.date | date: 'MM-dd'}}</td>
                                                 <td>${{record.totalincome}}</td>
                                                 <td>${{record.foodpandaincome * 0.635}}</td>
                                                 <td>${{record.bankincash}}</td>
@@ -121,7 +121,7 @@
                                     <tr ng-repeat="cost in record.detail.costRecords">
                                         <td>{{cost.product.name}} ({{cost.product.supplier.name}}):</td>
                                         <td>
-                                            ${{cost.product.unitprice * cost.quantity}} <span ng-if="cost.paid">(&#10003;档口出)</span>
+                                            ${{cost.product.unitprice * cost.quantity * (1+cost.gst) | number : 2}} <span ng-if="cost.paid">(&#10003;档口出)</span>
                                         </td>
                                     </tr>
                                     <tr>

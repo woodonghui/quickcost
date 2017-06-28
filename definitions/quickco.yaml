@@ -4417,6 +4417,8 @@ definitions:
       date:
         type: string
         format: date-time
+      paid:
+        type: boolean
       productid:
         type: number
         format: double
@@ -4426,17 +4428,23 @@ definitions:
       salerecordid:
         type: number
         format: double
-      paid:
+      excludeincosting:
         type: boolean
+      unitprice:
+        type: number
+        format: double
+      gst:
+        type: number
+        format: double
       id:
         type: number
         format: double
     required:
       - date
+      - paid
       - productid
       - quantity
       - salerecordid
-      - paid
     additionalProperties: false
   SaleRecord:
     properties:

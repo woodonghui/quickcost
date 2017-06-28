@@ -29,10 +29,6 @@
         "columnName": "unitprice",
         "dataType": "float"
       }
-    },
-    "costexcluded": {
-      "type": "boolean",
-      "required": false
     }
   },
   "validations": [],

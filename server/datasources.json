@@ -1,10 +1,10 @@
 {
   "db": {
-    "host": "db-2qu2c0dmj.aliwebs.com",
+    "host": "localhost",
     "port": 3306,
-    "database": "2qu2c0dmj",
-    "username": "2qu2c0dmj",
-    "password": "2qu2c0dmj_111",
+    "database": "mydb",
+    "username": "root",
+    "password": "111",
     "name": "db",
     "connector": "mysql"
   }
