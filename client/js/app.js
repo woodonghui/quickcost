@@ -284,6 +284,8 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
                 excludeincosting: $scope.item.excludeincosting || false
             });
         }
+
+        $scope.item = null;
     }
 
     $scope.removeItem = function ($index, paid) {
