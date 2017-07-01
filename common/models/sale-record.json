@@ -37,6 +37,10 @@
         "columnName": "totalincome",
         "dataType": "float"
       }
+    },
+    "honestbeeincome": {
+      "type": "number",
+      "required": false
     }
   },
   "validations": [],

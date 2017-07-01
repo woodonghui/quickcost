@@ -21,6 +21,10 @@
     "salary": {
       "type": "number",
       "required": true
+    },
+    "totalleave": {
+      "type": "number",
+      "required": false
     }
   },
   "validations": [],

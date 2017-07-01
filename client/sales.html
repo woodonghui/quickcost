@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Quick Cost Application</title>
+    <title>档口管理系统</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -12,6 +12,7 @@
     <link href="assets/css/font-style.css" rel="stylesheet">
     <!-- <link href="assets/css/jquery.numpad.css" rel="stylesheet"> -->
     <script type="text/javascript" src="//code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet" href="lib/angular-block-ui/dist/angular-block-ui.min.css" />
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,7 +27,8 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -39,8 +41,8 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/sales.html">上报营业额</a></li>
                     <li><a href="/history.html">历史账本</a></li>
-                    <li><a href="/index.html">当月成本</a></li>
-                    <li><a href="/admin.html">设置</a></li>
+                    <!--<li><a href="/index.html">当月成本</a></li>-->
+                    <!--<li><a href="/admin.html">设置</a></li>-->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -51,13 +53,9 @@
         <div class="row">
             <div class="col-sm-12 col-lg-12">
                 <div class="dash-unit free-grow">
-                    <dtitle>上报档口营业额</dtitle>
-                    <hr>
                     <div ng-controller="saleRecordController">
                         <div class="row">
                             <div class="col-sm-6 col-lg-6">
-                                <h2>档口收入: ${{salerecord.totalincome}}</h2>
-                                <!--<h2 class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">档口收入: ${{salerecord.totalincome}}</h2>-->
                                 <div class="form form-horizontal">
                                     <div class="form-group">
                                         <label for="" class="col-sm-2 control-label">日期</label>
@@ -72,20 +70,27 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="" class="col-sm-2 control-label">剩余现金</label>
+                                        <label for="" class="col-sm-2 control-label">💰 剩余现金</label>
                                         <div class="col-sm-10">
                                             <input type="number" ng-model="salerecord.bankincash" class="form-control" id="" placeholder="现金余额">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="" class="col-sm-2 control-label">熊猫外卖</label>
+                                        <label for="" class="col-sm-2 control-label">🐼 熊猫外卖</label>
                                         <div class="col-sm-10">
                                             <input type="number" ng-model="salerecord.foodpandaincome" class="form-control" id="" placeholder="熊猫外卖">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button class="btn-primary" ng-click="add()">提交营业额 ${{salerecord.totalincome}}</button>
+                                        <label for="" class="col-sm-2 control-label">🐝 蜜蜂外卖</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" ng-model="salerecord.honestbeeincome" class="form-control" id="" placeholder="熊猫外卖">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10 text-center">
+                                            <h2>{{salerecord.date | date: 'MM/dd'}}档口营业额: ${{salerecord.totalincome}}</h2>
+                                            <button class="btn-primary" ng-click="add()">上报营业额</button>
                                         </div>
                                     </div>
                                 </div>
@@ -94,43 +99,45 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6 col-lg-6">
-                                <h2>现金出账</h2>
+                                <h2>档口出账</h2>
                                 <table class="table">
                                     <tr class="header">
                                         <td>货</td>
                                         <td>单价</td>
                                         <td>数量</td>
-                                        <td>小计</td>
-                                        <td>小计(GST)</td>
+                                        <!--<td>小计</td>-->
+                                        <td>小计(w/ GST)</td>
                                         <td>更改</td>
                                     </tr>
                                     <tr ng-repeat='cost in salerecord.paiditems'>
                                         <td>{{ cost.product.name }}</td>
                                         <td>{{ cost.product.unitprice }}/{{ cost.product.unit }}</td>
                                         <td>{{ cost.quantity }}</td>
-                                        <td>${{ (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
-                                        <td>${{ cost.supplier.gstregistered ? (cost.quantity * cost.product.unitprice*1.07).toFixed(2) : (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
+                                        <!--<td>${{ (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>-->
+                                        <td>${{ cost.supplier.gstregistered ? (cost.quantity * cost.product.unitprice*1.07).toFixed(2)
+                                            : (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
                                         <td>
                                             <button class="btn btn-danger btn-xs" ng-click="removeItem($index, true)">删除</button>
                                         </td>
                                     </tr>
                                 </table>
-                                <h2>押账</h2>
+                                <h2>货钱（押账）</h2>
                                 <table class="table">
                                     <tr class="header">
                                         <td>货</td>
                                         <td>单价</td>
                                         <td>数量</td>
-                                        <td>小计</td>
-                                        <td>小计(GST)</td>
+                                        <!--<td>小计</td>-->
+                                        <td>小计(w/ GST)</td>
                                         <td>更改</td>
                                     </tr>
                                     <tr ng-repeat='cost in salerecord.unpaiditems'>
                                         <td>{{ cost.product.name }}</td>
-                                        <td>{{ cost.product.unitprice }}/{{ cost.product.unit }}</td>
+                                        <td>{{ cost.product.unitprice }}/{{ cost.product.unit || '' }}</td>
                                         <td>{{ cost.quantity }}</td>
-                                        <td>${{ (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
-                                        <td>${{ cost.supplier.gstregistered ? (cost.quantity * cost.product.unitprice*1.07).toFixed(2) : (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
+                                        <!--<td>${{ (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>-->
+                                        <td>${{ cost.supplier.gstregistered ? (cost.quantity * cost.product.unitprice*1.07).toFixed(2)
+                                            : (cost.quantity * cost.product.unitprice).toFixed(2) }}</td>
                                         <td>
                                             <button class="btn btn-danger btn-xs" ng-click="removeItem($index, false)">删除</button>
                                         </td>
@@ -162,7 +169,7 @@
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input ng-model="item.paid" type="checkbox"> 档口现金出账
+                                                    <input ng-model="item.paid" type="checkbox"> 档口出账 (煤气，杂货，小工工钱, 杂费)
                                                 </label>
                                             </div>
                                         </div>
@@ -171,7 +178,7 @@
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input ng-model="item.excludeincosting" type="checkbox"> 不计入成本
+                                                    <input ng-model="item.excludeincosting" type="checkbox"> 不计入成本 (煤气，顶工, 小工工钱, 杂费)
                                                 </label>
                                             </div>
                                         </div>
@@ -194,6 +201,7 @@
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-resource/angular-resource.js"></script>
     <script src="lib/angular-keypad/dist/angular-keypad.js"></script>
+    <script src="lib/angular-block-ui/dist/angular-block-ui.min.js"></script>
     <script src="js/lb-services.js"></script>
     <script src="js/app.js"></script>
 </body>

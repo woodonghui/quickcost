@@ -4376,8 +4376,6 @@ definitions:
       unitprice:
         type: number
         format: double
-      costexcluded:
-        type: boolean
       id:
         type: number
         format: double
@@ -4463,6 +4461,9 @@ definitions:
       totalincome:
         type: number
         format: double
+      honestbeeincome:
+        type: number
+        format: double
       id:
         type: number
         format: double
@@ -4510,6 +4511,9 @@ definitions:
       nickname:
         type: string
       salary:
+        type: number
+        format: double
+      totalleave:
         type: number
         format: double
       id:

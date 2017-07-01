@@ -12,6 +12,8 @@
     <link href="assets/css/font-style.css" rel="stylesheet">
     <link href="assets/css/flexslider.css" rel="stylesheet">
     <link rel="stylesheet" href="lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="lib/angular-block-ui/dist/angular-block-ui.min.css" />
+
     <!-- <link href="assets/css/jquery.numpad.css" rel="stylesheet"> -->
     <script type="text/javascript" src="//code.jquery.com/jquery-latest.js"></script>
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -28,7 +30,8 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                    aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -41,8 +44,8 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/sales.html">上报营业额</a></li>
                     <li><a href="/history.html">历史账本</a></li>
-                    <li><a href="/index.html">当月成本</a></li>
-                    <li><a href="/admin.html">设置</a></li>
+                    <!--<li><a href="/index.html">当月成本</a></li>-->
+                    <!--<li><a href="/admin.html">设置</a></li>-->
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -53,21 +56,18 @@
         <div class="row">
             <div class="col-sm-12 col-lg-12">
                 <div class="dash-unit free-grow">
-                    <dtitle>档口营业额</dtitle>
-                    <hr>
                     <div ng-controller="listSaleRecordController">
                         <div class="row">
-                            <div class="col-sm-6 col-lg-6">
-                                <label>选择年份</label>
+                            <div class="col-sm-12 col-lg-12 text-center">
                                 <select class="input-sm" ng-model="selection.year" ng-options="year for year in years">
                                 </select>
-                                <label>选择月份</label>
+                                <label>年</label>
                                 <select class="input-sm" ng-model="selection.month" ng-options="month for month in months">
                                 </select>
+                                <label>月</label>
                                 <button class="btn btn-primary btn-default" ng-click="search()">查看</button>
                             </div>
                         </div>
-                        <hr>
                         <div class="row">
                             <div class="col-sm-8 col-lg-8">
                                 <!-- Nav tabs -->
@@ -82,21 +82,22 @@
                                                 <!--<td>#</td>-->
                                                 <td>日期</td>
                                                 <td>营业额</td>
-                                                <td>熊猫</td>
+                                                <!--<td>熊猫</td>-->
                                                 <td>剩余现金</td>
                                                 <td>操作</td>
                                             </tr>
                                             <tr ng-repeat="record in tables[outlet.name]">
                                                 <!--<td>{{$index + 1}}</td>-->
-                                                <td>{{record.date | date: 'MM-dd'}}</td>
+                                                <td>{{record.date | date: 'MM/dd'}}</td>
                                                 <td>${{record.totalincome}}</td>
-                                                <td>${{record.foodpandaincome * 0.635}}</td>
+                                                <!--<td>${{record.foodpandaincome * 0.635}}</td>-->
                                                 <td>${{record.bankincash}}</td>
                                                 <td>
                                                     <button class="btn btn-primary btn-xs" ng-click="view(outlet, $index)">查看</button>
                                                 </td>
                                             </tr>
                                         </table>
+                                        <h3>本月总收入：${{costTables[outlet.name].totalincome}} 成本：{{costTables[outlet.name].cost}}%</h3>
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +105,7 @@
                                 <table class="table" ng-if="record">
                                     <tr>
                                         <td>日期:</td>
-                                        <td>{{record.detail.date | date: 'yyyy-MM-dd'}}</td>
+                                        <td>{{record.detail.date | date: 'yyyy/MM/dd'}}</td>
                                     </tr>
                                     <tr>
                                         <td>档口:</td>
@@ -115,17 +116,27 @@
                                         <td>${{record.detail.totalincome}}</td>
                                     </tr>
                                     <tr>
-                                        <td>熊猫外卖:</td>
-                                        <td>${{record.detail.foodpandaincome * 0.635}}</td>
+                                        <td>🐼 熊猫外卖:</td>
+                                        <td>${{record.detail.foodpandaincome}} (${{record.detail.foodpandaincome * 0.635}})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>🐝 蜜蜂外卖:</td>
+                                        <td>${{record.detail.honestbeeincome}} (${{record.detail.honestbeeincome * 0.7}})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>货钱</td>
                                     </tr>
                                     <tr ng-repeat="cost in record.detail.costRecords">
                                         <td>{{cost.product.name}} ({{cost.product.supplier.name}}):</td>
                                         <td>
-                                            ${{cost.product.unitprice * cost.quantity * (1+cost.gst) | number : 2}} <span ng-if="cost.paid">(&#10003;档口出)</span>
+                                            <!--${{cost.product.unitprice * cost.quantity * (1+cost.gst) | number : 2}} <span ng-if="!cost.paid">(押账)</span><span ng-if="cost.paid">(&#10003;档口出)</span>-->
+                                            <span ng-if="!cost.paid"><strike>${{cost.product.unitprice * cost.quantity * (1+cost.gst) | number : 2}} (押账)</strike></span>
+                                            <span ng-if="cost.paid">${{cost.product.unitprice * cost.quantity * (1+cost.gst) | number : 2}} (&#10003;档口出)</span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>剩余现金:</td>
+                                        <td>💰 剩余现金:</td>
                                         <td>${{record.detail.bankincash}}</td>
                                     </tr>
                                     <tr>
@@ -148,7 +159,8 @@
     <script type="text/javascript" src="//code.highcharts.com/highcharts.js"></script>
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-resource/angular-resource.js"></script>
-    <script src="lib/angular-keypad/dist/angular-keypad.js"></script>
+    <!--<script src="lib/angular-keypad/dist/angular-keypad.js"></script>-->
+    <script src="lib/angular-block-ui/dist/angular-block-ui.min.js"></script>
     <script src="js/lb-services.js"></script>
     <script src="js/app.js"></script>
 </body>

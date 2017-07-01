@@ -2,6 +2,10 @@ div.form {
     padding: 5px;
 }
 
+.container {
+    padding: 0;
+}
+
 .body-container {
     margin-top: 80px;
 }

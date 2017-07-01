@@ -54,8 +54,8 @@
         <div class="row">
             <div class="col-sm-12 col-lg-12">
                 <div class="dash-unit free-grow">
-                    <dtitle>门店管理</dtitle>
-                    <hr>
+                    <!--<dtitle>门店管理</dtitle>-->
+                    <!--<hr>-->
                     <div ng-controller="outletController">
                         <div class="row">
                             <div class="col-sm-6 col-lg-6">
@@ -117,14 +117,14 @@
         <div class="row">
             <div class="col-sm-12 col-lg-12">
                 <div class="dash-unit free-grow">
-                    <dtitle>供应商管理</dtitle>
-                    <hr>
+                    <!--<dtitle>供应商管理</dtitle>-->
+                    <!--<hr>-->
                     <div ng-controller="supplierController">
                         <div class="row">
                             <div class="col-sm-6 col-lg-6">
                                 <table class="table">
                                     <tr class="header">
-                                        <td>#</td>
+                                        <!--<td>#</td>-->
                                         <td>供应商</td>
                                         <td>联系方式</td>
                                         <td>GST？</td>
@@ -132,7 +132,7 @@
                                         <td>操作</td>
                                     </tr>
                                     <tr ng-repeat='supplier in suppliers'>
-                                        <td>{{$index}}</td>
+                                        <!--<td>{{$index}}</td>-->
                                         <td>
                                             {{ supplier.name }}
                                         </td>
@@ -193,14 +193,14 @@
         <div class="row">
             <div class="col-sm-12 col-lg-12">
                 <div class="dash-unit free-grow">
-                    <dtitle>供应商 产品管理</dtitle>
-                    <hr>
+                    <!--<dtitle>供应商 产品管理</dtitle>-->
+                    <!--<hr>-->
                     <div ng-controller="productController">
                         <div class="row">
                             <div class="col-sm-6 col-lg-6">
                                 <table class="table">
                                     <tr class="header">
-                                        <td>#</td>
+                                        <!--<td>#</td>-->
                                         <td>供应商</td>
                                         <td>商品名</td>
                                         <td>单价</td>
@@ -209,7 +209,7 @@
                                         <td>更改</td>
                                     </tr>
                                     <tr ng-repeat='product in products'>
-                                        <td>{{$index}}</td>
+                                        <!--<td>{{$index}}</td>-->
                                         <td>{{ product.supplier.name }}</td>
                                         <td>
                                             {{ product.name }}
