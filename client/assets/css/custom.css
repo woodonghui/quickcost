@@ -1,3 +1,7 @@
+input[type="checkbox"]{
+    transform:scale(2, 2);
+}
+
 div.form {
     padding: 5px;
 }
@@ -9,6 +13,10 @@ div.form {
 .container table.table {
     /*margin: 5px;*/
     border-bottom: 1px solid #333333;
+}
+
+.text-padding {
+    padding: 15px 0;
 }
 
 .container table.table tr.header {

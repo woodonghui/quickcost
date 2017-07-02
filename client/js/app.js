@@ -124,7 +124,7 @@ app.controller('listSaleRecordController', function ($scope, $rootScope, $http, 
         }
         // return totalcost / totalincome;
         return {
-            totalincome: totalincome,
+            totalincome: parseFloat(totalincome.toFixed(2)),
             cost: parseFloat((100 * totalcost / totalincome).toFixed(2))
         };
     }
@@ -297,6 +297,18 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
     }
 
     $scope.add = function () {
+        if(!$scope.salerecord.date){
+            alert('请选择日期！');
+            return false;
+        }
+        if(!$scope.outlet){
+            alert('请选择档口！');
+            return false;
+        }
+        if(isNaN($scope.salerecord.totalincome)){
+            alert('请输入正确营业额！');
+            return false;
+        }
         var confirmed = confirm("确定上报营业额吗？");
         if (!confirmed) return false;
         blockUI.start();
@@ -349,14 +361,9 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
                                     unpaiditems: []
                                 };
 
-                                $scope.item.quantity = 0;
-                                $scope.item.paid = false;
-                                $scope.item.excludeincosting = false;
-
                                 $rootScope.$broadcast('saleRecordAdded');
-                                blockUI.stop();
+                                blockUI.stop(); 
                                 alert('上报成功！');
-
                             });
                     } else {
                         $scope.salerecord = {
@@ -367,7 +374,7 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
                             paiditems: [],
                             unpaiditems: []
                         };
-
+                        
                         $rootScope.$broadcast('saleRecordAdded');
                         blockUI.stop();
                         alert('上报成功！');
