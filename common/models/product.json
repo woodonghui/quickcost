@@ -29,6 +29,10 @@
         "columnName": "unitprice",
         "dataType": "float"
       }
+    },
+    "excludeincosting": {
+      "type": "boolean",
+      "required": false
     }
   },
   "validations": [],
@@ -44,6 +48,11 @@
       "foreignKey": "productid"
     }
   },
-  "acls": [],
+  "acls": [{
+    "permission": "DENY",
+    "principalType": "ROLE",
+    "principalId": "$everyone",
+    "property": ["deleteById"]
+  }],
   "methods": {}
 }

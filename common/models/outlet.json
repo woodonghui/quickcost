@@ -27,6 +27,13 @@
       "foreignKey": "outletid"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "permission": "DENY",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "property": ["deleteById"]
+    }
+  ],
   "methods": {}
 }

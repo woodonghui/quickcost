@@ -78,8 +78,8 @@
                                         <td>{{ outlet.address }}</td>
                                         <td>{{ outlet.contact }}</td>
                                         <td>
-                                            <!--<button class="btn btn-danger btn-xs" ng-click="edit($index)">编辑</button>-->
-                                            <button class="btn btn-danger btn-xs" ng-click="delete($index)">删除</button>
+                                            <button class="btn btn-danger btn-xs" ng-click="edit($index)">修改</button>
+                                            <!--<button class="btn btn-danger btn-xs" ng-click="delete($index)">删除</button>-->
                                         </td>
                                     </tr>
                                 </table>
@@ -107,7 +107,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <button ng-click="add()" class="btn btn-default">添加门店</button>
-                                            <!--<button ng-click="save()" class="btn btn-default">更新门店</button>-->
+                                            <button ng-click="save()" class="btn btn-default">更新门店</button>
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +143,8 @@
                                         <td>GST: {{ supplier.gstregistered }}</td>
                                         <td>{{ supplier.hasterm }}</td>
                                         <td>
-                                            <button class="btn btn-danger btn-xs" ng-click="delete($index)">删除</button>
+                                            <!--<button class="btn btn-danger btn-xs" ng-click="delete($index)">删除</button>-->
+                                            <button class="btn btn-danger btn-xs" ng-click="edit($index)">修改</button>
                                         </td>
                                     </tr>
                                 </table>
@@ -183,7 +184,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <button ng-click="add()" class="btn btn-default">添加供应商</button>
-                                            <!--<button ng-click="save()" class="btn btn-default">更新供应商</button>-->
+                                            <button ng-click="save()" class="btn btn-default">更新</button>
                                         </div>
                                     </div>
                                 </div>
@@ -208,7 +209,7 @@
                                         <td>商品名</td>
                                         <td>单价</td>
                                         <td>单位</td>
-                                        <!--<td>不计入成本</td>-->
+                                        <td>nocosting?</td>
                                         <td>更改</td>
                                     </tr>
                                     <tr ng-repeat='product in products'>
@@ -219,9 +220,9 @@
                                         </td>
                                         <td>{{ product.unitprice }}</td>
                                         <td>{{ product.unit }}</td>
-                                        <!--<td>{{ product.costexcluded }}</td>-->
+                                        <td>{{ product.excludeincosting || false }}</td>
                                         <td>
-                                            <button class="btn btn-danger btn-xs" ng-click="delete($index)">删除</button>
+                                            <button class="btn btn-danger btn-xs" ng-click="edit($index)">修改</button>
                                         </td>
                                     </tr>
                                 </table>
@@ -252,19 +253,19 @@
                                             <input type="text" ng-model="product.unit" class="form-control" id="" placeholder="数量单位， 如（KG）">
                                         </div>
                                     </div>
-                                    <!--<div class="form-group">
+                                    <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <div class="checkbox">
                                                 <label>
-                                                    <input ng-model="product.costexcluded" type="checkbox"> 不计入成本
+                                                    <input ng-model="product.excludeincosting" type="checkbox"> 不计入成本
                                                 </label>
                                             </div>
                                         </div>
-                                    </div>-->
+                                    </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
                                             <button ng-click="add()" class="btn btn-default">添加商品</button>
-                                            <!-- <button ng-click="save()" class="btn btn-default">更新供应商</button> -->
+                                             <button ng-click="save()" class="btn btn-default">更新</button> 
                                         </div>
                                     </div>
                                 </div>
