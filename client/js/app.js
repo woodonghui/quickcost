@@ -255,6 +255,24 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
   $scope.quantity;
   $scope.loading = false;
 
+  $scope.frequency;
+  CostRecord.find({
+    filter: {
+      limit: 50,
+      order: 'date desc'
+    }
+  }).$promise.then(function (records) {
+    $scope.frequency = records.reduce(function(state, record){
+      if(state[record.productid]){
+        state[record.productid] += 1;
+      }else{
+        state[record.productid] = 1;
+      }
+      return state;
+    }, {});
+    // console.log($scope.frequency);
+  });
+
   $scope.$watch('supplier', function (newValue, oldValue) {
     if (newValue != undefined) {
       // $scope.products = Supplier.products({ id: $scope.supplier.id, filter: { include: 'supplier' } });
@@ -265,7 +283,19 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
           }
         })
         .$promise.then(function (products) {
-          $scope.products = products;
+          var _products = products.sort(function(a, b){
+            if($scope.frequency){
+              var a_frequency = $scope.frequency[a.id] || 0;
+              var b_frequency = $scope.frequency[b.id] || 0;
+
+              if(a_frequency > b_frequency) return -1;
+              if(a_frequency < b_frequency) return 1;
+              return 0;
+            }
+            return 0;
+          });
+          //console.log(_products);
+          $scope.products = _products;
           if ($scope.products.length > 0) {
             $scope.product = $scope.products[0];
           }
@@ -583,6 +613,87 @@ app.controller('productController', function ($scope, $http, Product, Supplier) 
           order: 'supplierid asc'
         }
       });
+    });
+  }
+
+});
+
+
+app.controller('reportController', function ($scope, $rootScope, $http, Outlet, SaleRecord, Supplier, CostRecord, blockUI) {
+  var today = new Date();
+
+  var year = today.getFullYear();
+  var month = today.getMonth() + 1;
+
+  $scope.years = [2017, 2018, 2019];
+  $scope.months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  $scope.selection = {
+    year: year,
+    month: month
+  }
+
+  $scope.suppliers = Supplier.find();
+  $scope.supplier;
+
+  $scope.outlets;
+  $scope.tables = {};
+  $scope.costTables = {};
+  $scope.record;
+
+  function loadReport(outlet, supplier) {
+    var dateofcurrentmonth = new Date($scope.selection.year, $scope.selection.month - 1);
+    var dateofnextmonth = new Date($scope.selection.year, $scope.selection.month);
+    blockUI.start();
+
+    CostRecord.find({
+        filter: {
+          include: ['product', 'saleRecord'],
+          where: {
+            and: [{
+              date: {
+                gte: dateofcurrentmonth
+              }
+            }, {
+              date: {
+                lt: dateofnextmonth
+              }
+            }]
+          },
+          order: 'date ASC'
+        }
+      })
+      .$promise.then(function (records) {
+        var _records = records.filter(function (value) {
+          return value.product.supplierid == supplier.id && value.saleRecord.outletid == outlet.id;
+        });
+
+        $scope.tables[outlet.name] = _records;
+        $scope.costTables[outlet.name] = _records.reduce(function (pre, cur) {
+          return pre + cur.unitprice * cur.quantity * (1 + cur.gst);
+        }, 0);
+
+        blockUI.stop();
+      });
+
+  }
+
+
+  $scope.search = function () {
+    if (!$scope.supplier) {
+      alert('选择供应商');
+      return;
+    }
+    // console.log($scope.supplier);
+    $scope.outlets = [];
+    $scope.tables = {};
+    $scope.record = null;
+    Outlet.find().$promise.then(function (models) {
+      $scope.outlets = models;
+      for (var i = 0; i < models.length; i++) {
+        var outlet = models[i];
+        // loadSaleRecords(outlet);
+        loadReport(outlet, $scope.supplier);
+      }
     });
   }
 

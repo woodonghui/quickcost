@@ -44,8 +44,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/sales.html">上报营业额</a></li>
                     <li><a href="/history.html">历史账本</a></li>
-                    <!--<li><a href="/index.html">当月成本</a></li>-->
-                    <!--<li><a href="/admin.html">设置</a></li>-->
+                    <li><a href="/admin.html">设置</a></li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -56,9 +55,11 @@
         <div class="row">
             <div class="col-sm-12 col-lg-12">
                 <div class="dash-unit free-grow">
-                    <div ng-controller="listSaleRecordController">
+                    <div ng-controller="reportController">
                         <div class="row">
                             <div class="col-sm-12 col-lg-12 text-center text-padding">
+                                <select class="input-sm" ng-model="supplier" ng-options="supplier.name for supplier in suppliers">
+                                </select>
                                 <select class="input-sm" ng-model="selection.year" ng-options="year for year in years">
                                 </select>
                                 <label>年</label>
@@ -79,35 +80,33 @@
                                     <div role="tabpanel" ng-class="{'tab-pane': true, 'active': $index == 0}" ng-repeat="outlet in outlets" id="{{outlet.name}}">
                                         <table class="table">
                                             <tr class="header">
-                                                <!--<td>#</td>-->
                                                 <td>日期</td>
-                                                <td>营业额</td>
-                                                <!--<td>熊猫</td>-->
-                                                <td>剩余现金</td>
-                                                <td>操作</td>
+                                                <td>商品</td>
+                                                <td>单价 (GST)</td>
+                                                <td>数量</td>
+                                                <td>金额</td>
                                             </tr>
                                             <tr ng-repeat="record in tables[outlet.name]">
-                                                <!--<td>{{$index + 1}}</td>-->
                                                 <td>{{record.date | date: 'MM/dd'}}</td>
-                                                <td>${{record.totalincome}}</td>
-                                                <!--<td>${{record.foodpandaincome * 0.635}}</td>-->
-                                                <td>${{record.bankincash}}</td>
+                                                <td>{{record.product.name}}</td>
+                                                <td>${{record.unitprice}} ({{record.gst}})</td>
+                                                <td>{{record.quantity}}</td>
+                                                <td>${{record.unitprice * (1+record.gst) * record.quantity}}</td>
                                                 <td>
-                                                    <button class="btn btn-primary btn-xs" ng-click="view(outlet, $index)">查看</button>
+                                                    <!-- <button class="btn btn-primary btn-xs" ng-click="view(outlet, $index)">查看</button> -->
                                                 </td>
                                             </tr>
                                         </table>
-                                        <h3>本月平均营业额：${{costTables[outlet.name].totalincome / tables[outlet.name].length | number: 2}}</h3>
-                                        <h3>本月总收入：${{costTables[outlet.name].totalincome | number: 2}}</h3>
-                                        <h3>本月总出账：${{costTables[outlet.name].totalexpense | number: 2}}</h3>
-                                        <h3>本月总货钱：${{costTables[outlet.name].totalcost | number: 2}}</h3>
-                                        <h3>成本（货钱/收入）：{{costTables[outlet.name].cost}}%</h3>
-                                        <h3>本月总利润：${{costTables[outlet.name].totalincome - costTables[outlet.name].totalexpense | number: 2}}</h3>
+                                         <h3>本月总货钱：${{costTables[outlet.name] | number: 2}}</h3> 
+                                        <!-- <h3>本月总出账：${{costTables[outlet.name].totalexpense}}</h3> -->
+                                        <!-- <h3>本月总货钱：${{costTables[outlet.name].totalcost}}</h3> -->
+                                        <!-- <h3>成本（货钱/收入）：{{costTables[outlet.name].cost}}%</h3> -->
+                                        <!-- <h3>本月总利润：${{costTables[outlet.name].totalincome - costTables[outlet.name].totalexpense }}</h3> -->
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-lg-4">
-                                <table class="table" ng-if="record">
+                                <!-- <table class="table" ng-if="record">
                                     <tr>
                                         <td>日期:</td>
                                         <td>{{record.detail.date | date: 'yyyy/MM/dd'}}</td>
@@ -146,10 +145,10 @@
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <button class="btn btn-danger" ng-click="delete(record)">删除</button>
+                                             <button class="btn btn-danger" ng-click="delete(record)">删除</button> 
                                         </td>
                                     </tr>
-                                </table>
+                                </table> -->
                             </div>
                         </div>
                     </div>
@@ -160,7 +159,7 @@
     <script type="text/javascript" src="assets/js/bootstrap.js"></script>
     <script type="text/javascript" src="lib/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-    <!-- <script type="text/javascript" src="//code.highcharts.com/highcharts.js"></script> -->
+    <script type="text/javascript" src="//code.highcharts.com/highcharts.js"></script>
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-resource/angular-resource.js"></script>
     <!--<script src="lib/angular-keypad/dist/angular-keypad.js"></script>-->
