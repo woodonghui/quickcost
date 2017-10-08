@@ -104,9 +104,11 @@ app.controller('listSaleRecordController', function ($scope, $rootScope, $http, 
     var totalincome = 0;
     var totalcost = 0;
     var totalexpense = 0;
+    var foodpandaincome = 0;
     for (var i = 0; i < salerecords.length; i++) {
       var salerecord = salerecords[i];
       totalincome += salerecord.totalincome;
+      foodpandaincome += salerecord.foodpandaincome;
       for (var j = 0; j < salerecord.costRecords.length; j++) {
         var costRecord = salerecord.costRecords[j];
         if (!costRecord.excludeincosting) {
@@ -121,6 +123,7 @@ app.controller('listSaleRecordController', function ($scope, $rootScope, $http, 
         totalincome: 0,
         totalexpense: 0,
         totalcost: 0,
+        foodpandaincome: 0,
         cost: 0
       };
     }
@@ -129,6 +132,7 @@ app.controller('listSaleRecordController', function ($scope, $rootScope, $http, 
       totalincome: parseFloat(totalincome.toFixed(2)),
       totalexpense: parseFloat(totalexpense.toFixed(2)),
       totalcost: parseFloat(totalcost.toFixed(2)),
+      foodpandaincome: parseFloat(foodpandaincome.toFixed(2)),
       cost: parseFloat((100 * totalcost / totalincome).toFixed(2))
     };
   }
