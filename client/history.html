@@ -99,6 +99,8 @@
                                         </table>
                                         <!-- <h3>本月平均营业额：${{costTables[outlet.name].totalincome / tables[outlet.name].length | number: 2}}</h3> -->
                                         <h3>熊猫外卖收入：${{costTables[outlet.name].foodpandaincome | number: 2}}</h3>
+                                        <h3>Grab外卖收入：${{costTables[outlet.name].grabincome | number: 2}}</h3>
+                                        <h3>Deliveroo外卖收入：${{costTables[outlet.name].honestbeeincome | number: 2}}</h3>
                                         <h3>本月总收入：${{costTables[outlet.name].totalincome | number: 2}}</h3>
                                         <h3>本月总出账：${{costTables[outlet.name].totalexpense | number: 2}}</h3>
                                         <h3>本月总货钱：${{costTables[outlet.name].totalcost | number: 2}}</h3>
@@ -126,7 +128,11 @@
                                         <td>${{record.detail.foodpandaincome}} (${{record.detail.foodpandaincome * 0.635}})</td>
                                     </tr>
                                     <tr>
-                                        <td>🐝 蜜蜂外卖:</td>
+                                        <td>Grab外卖:</td>
+                                        <td>${{record.detail.grabincome}} (${{record.detail.grabincome * 0.7}})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deliveroo外卖:</td>
                                         <td>${{record.detail.honestbeeincome}} (${{record.detail.honestbeeincome * 0.7}})</td>
                                     </tr>
                                     <tr>

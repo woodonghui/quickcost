@@ -105,10 +105,14 @@ app.controller('listSaleRecordController', function ($scope, $rootScope, $http, 
     var totalcost = 0;
     var totalexpense = 0;
     var foodpandaincome = 0;
+    var grabincome = 0;
+    var honestbeeincome = 0;
     for (var i = 0; i < salerecords.length; i++) {
       var salerecord = salerecords[i];
       totalincome += salerecord.totalincome;
       foodpandaincome += salerecord.foodpandaincome;
+      grabincome += salerecord.grabincome;
+      honestbeeincome += salerecord.honestbeeincome;
       for (var j = 0; j < salerecord.costRecords.length; j++) {
         var costRecord = salerecord.costRecords[j];
         if (!costRecord.excludeincosting) {
@@ -124,6 +128,8 @@ app.controller('listSaleRecordController', function ($scope, $rootScope, $http, 
         totalexpense: 0,
         totalcost: 0,
         foodpandaincome: 0,
+        grabincome: 0,
+        honestbeeincome: 0,
         cost: 0
       };
     }
@@ -133,6 +139,8 @@ app.controller('listSaleRecordController', function ($scope, $rootScope, $http, 
       totalexpense: parseFloat(totalexpense.toFixed(2)),
       totalcost: parseFloat(totalcost.toFixed(2)),
       foodpandaincome: parseFloat(foodpandaincome.toFixed(2)),
+      grabincome: parseFloat(grabincome.toFixed(2)),
+      honestbeeincome: parseFloat(honestbeeincome.toFixed(2)),
       cost: parseFloat((100 * totalcost / totalincome).toFixed(2))
     };
   }
@@ -228,6 +236,7 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
 
   $scope.foodpandapayoutrate = 0.635;
   $scope.honestbeepayoutrate = 0.7;
+  $scope.grabpayoutrate = 0.7;
   $scope.gst = 0.07;
 
   $scope.outlets = Outlet.find();
@@ -239,6 +248,7 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
     bankincash: null,
     foodpandaincome: null,
     honestbeeincome: null,
+    grabincome: null,
     paiditems: [],
     unpaiditems: [],
     date: ''
@@ -331,6 +341,7 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
     }
     $scope.salerecord.totalincome += ($scope.salerecord.foodpandaincome || 0) * $scope.foodpandapayoutrate;
     $scope.salerecord.totalincome += ($scope.salerecord.honestbeeincome || 0) * $scope.honestbeepayoutrate;
+    $scope.salerecord.totalincome += ($scope.salerecord.grabincome || 0) * $scope.grabpayoutrate;
     $scope.salerecord.totalincome = parseFloat($scope.salerecord.totalincome.toFixed(2));
   }
 
@@ -339,6 +350,10 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
   });
 
   $scope.$watch('salerecord.honestbeeincome', function (newValue, oldValue) {
+    calculateTotalIncome();
+  });
+
+  $scope.$watch('salerecord.grabincome', function (newValue, oldValue) {
     calculateTotalIncome();
   });
 
@@ -408,6 +423,7 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
         bankincash: $scope.salerecord.bankincash || 0,
         foodpandaincome: $scope.salerecord.foodpandaincome || 0,
         honestbeeincome: $scope.salerecord.honestbeeincome || 0,
+        grabincome: $scope.salerecord.grabincome || 0,
         outletid: $scope.outlet.id,
         date: $scope.salerecord.date
       }).$promise
@@ -448,6 +464,7 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
                   bankincash: null,
                   foodpandaincome: null,
                   honestbeeincome: null,
+                  grabincome: null,
                   paiditems: [],
                   unpaiditems: []
                 };
@@ -462,6 +479,7 @@ app.controller('saleRecordController', function ($scope, $rootScope, $http, Supp
               bankincash: null,
               foodpandaincome: null,
               honestbeeincome: null,
+              grabincome: null,
               paiditems: [],
               unpaiditems: []
             };

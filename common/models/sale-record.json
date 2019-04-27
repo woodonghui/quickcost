@@ -41,6 +41,14 @@
     "honestbeeincome": {
       "type": "number",
       "required": false
+    },
+    "grabincome": {
+      "type": "number",
+      "required": false,
+      "mysql": {
+        "columnName": "grabincome",
+        "dataType": "float"
+      }
     }
   },
   "validations": [],
